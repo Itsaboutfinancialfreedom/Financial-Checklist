@@ -203,12 +203,14 @@
                     <p class="text-white/80 text-lg md:text-xl max-w-2xl mx-auto mb-8">
                         Get your <strong>Free Financial Gap Analysis Checklist</strong> — a 24-question self-assessment that reveals exactly where your money is hiding and what to fix first.
                     </p>
-                    <!-- Email Form -->
+                    <!-- Email + Phone Form -->
                     <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-white/20 max-w-xl mx-auto">
                         <form id="leadForm" onsubmit="handleEmailSubmit(event)">
-                            <div class="flex flex-col md:flex-row gap-3">
+                            <div class="flex flex-col gap-3">
                                 <input type="email" id="emailInput" placeholder="Enter your email address" required
-                                    class="form-input flex-1 px-5 py-4 rounded-xl bg-white text-navy-900 placeholder-gray-400 border-2 border-transparent text-base transition-all">
+                                    class="form-input w-full px-5 py-4 rounded-xl bg-white text-navy-900 placeholder-gray-400 border-2 border-transparent text-base transition-all">
+                                <input type="tel" name="phone" placeholder="Phone number (optional)" 
+                                    class="form-input w-full px-5 py-4 rounded-xl bg-white text-navy-900 placeholder-gray-400 border-2 border-transparent text-base transition-all">
                                 <button type="submit" id="submitBtn"
                                     class="pulse-glow bg-gold-400 text-navy-900 px-8 py-4 rounded-xl font-bold text-base hover:bg-gold-500 transition-all transform hover:scale-105 whitespace-nowrap">
                                     <i class="fas fa-play mr-2"></i> Start The Checklist
@@ -308,9 +310,11 @@
                 <h2 class="font-serif text-3xl md:text-4xl font-bold text-navy-900 mb-4">Ready to Find Your Financial Gaps?</h2>
                 <p class="text-navy-600 text-lg mb-8">Join thousands who have taken control of their finances. It takes just 5 minutes.</p>
                 <form onsubmit="handleEmailSubmit(event)" class="max-w-md mx-auto">
-                    <div class="flex flex-col sm:flex-row gap-3">
+                    <div class="flex flex-col gap-3">
                         <input type="email" placeholder="Enter your email address" required
-                            class="form-input flex-1 px-5 py-4 rounded-xl bg-white text-navy-900 placeholder-gray-400 border-2 border-gray-200 text-base transition-all">
+                            class="form-input w-full px-5 py-4 rounded-xl bg-white text-navy-900 placeholder-gray-400 border-2 border-gray-200 text-base transition-all">
+                        <input type="tel" name="phone" placeholder="Phone number (optional)" 
+                            class="form-input w-full px-5 py-4 rounded-xl bg-white text-navy-900 placeholder-gray-400 border-2 border-gray-200 text-base transition-all">
                         <button type="submit"
                             class="bg-navy-900 text-gold-400 px-8 py-4 rounded-xl font-bold text-base hover:bg-navy-800 transition-all transform hover:scale-105 whitespace-nowrap">
                             <i class="fas fa-play mr-2"></i> Start The Checklist
@@ -483,27 +487,18 @@
     <!-- ==================== JAVASCRIPT ==================== -->
     <script>
     // ===== GOOGLE FORM CONFIG =====
-    // INSTRUCTIONS TO GET YOUR ENTRY ID (Only step remaining!):
-    // Your Google Form URL is already configured below.
-    // You just need to find your "entry ID" for the Email field:
+    // GOOGLE FORM IS FULLY CONFIGURED — EMAIL + PHONE!
+    // Both your email and phone fields are connected to your Google Form.
+    // Every submission sends email AND phone to your responses sheet.
     //
-    // METHOD 1 (Easiest):
-    // 1. Open your form: https://docs.google.com/forms/d/1kUnSSMKdJpBfYbMRFOUpd0-jkIlPU5X5xhz23Z8NVGQ/edit
-    // 2. Click the 3 dots (⋮) in top right → "Get pre-filled link"
-    // 3. Type a test email (e.g., test@example.com) in the Email field
-    // 4. Click "Get Link" — you'll see a URL like:
-    //    ...viewform?usp=pp_url&entry.1234567890=test@example.com
-    // 5. Copy the numbers after "entry." (e.g., 1234567890)
-    // 6. Replace YOUR_ENTRY_ID below with those numbers
-    //
-    // METHOD 2:
-    // 1. Open your form preview: https://docs.google.com/forms/d/1kUnSSMKdJpBfYbMRFOUpd0-jkIlPU5X5xhz23Z8NVGQ/preview
-    // 2. Right-click → "View Page Source"
-    // 3. Search (Ctrl+F) for "entry." — you'll see entry.1234567890
-    // 4. Copy those numbers and replace YOUR_ENTRY_ID below
+    // To view your leads:
+    // 1. Go to: https://docs.google.com/forms/d/e/1FAIpQLSfNDFMi6MCDg0H39WLqj5dgKP0OwflaKTEGvjGEoQ55OHsffA/edit
+    // 2. Click "Responses" tab → "View in Sheets"
+    // 3. Or open your linked Google Sheet directly
 
-    const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/1kUnSSMKdJpBfYbMRFOUpd0-jkIlPU5X5xhz23Z8NVGQ/formResponse';
-    const GOOGLE_FORM_ENTRY_ID = 'entry.YOUR_ENTRY_ID';
+    const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfNDFMi6MCDg0H39WLqj5dgKP0OwflaKTEGvjGEoQ55OHsffA/formResponse';
+    const GOOGLE_FORM_ENTRY_ID = 'entry.1797722137';        // Email field
+    const GOOGLE_FORM_PHONE_ENTRY_ID = 'entry.1305005940'; // Phone field
 
     // ===== DATA =====
     const categories = [
@@ -637,56 +632,55 @@
     }
 
     // ===== SUBMIT TO GOOGLE FORM =====
-    function submitToGoogleForm(email) {
-        // Check if user has configured their Google Form
-        if (GOOGLE_FORM_URL.includes('YOUR_FORM_ID')) {
-            console.warn('Google Form not configured yet. Email saved to localStorage only:', email);
-            // Still save to localStorage as backup
-            const stored = JSON.parse(localStorage.getItem('kifedha_emails') || '[]');
-            if (!stored.includes(email)) {
-                stored.push(email);
-                localStorage.setItem('kifedha_emails', JSON.stringify(stored));
-            }
-            return;
-        }
-
+    function submitToGoogleForm(email, phone) {
         // Create a form and submit it to Google Forms
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = GOOGLE_FORM_URL;
         form.target = 'googleFormTarget';
 
+        // Email field
         const entryField = document.createElement('input');
         entryField.type = 'hidden';
         entryField.name = GOOGLE_FORM_ENTRY_ID;
         entryField.value = email;
         form.appendChild(entryField);
 
+        // Phone field (only if configured and provided)
+        if (phone && !GOOGLE_FORM_PHONE_ENTRY_ID.includes('PHONE_ENTRY_ID')) {
+            const phoneField = document.createElement('input');
+            phoneField.type = 'hidden';
+            phoneField.name = GOOGLE_FORM_PHONE_ENTRY_ID;
+            phoneField.value = phone;
+            form.appendChild(phoneField);
+        }
+
         document.body.appendChild(form);
         form.submit();
         document.body.removeChild(form);
 
         // Also save to localStorage as backup
-        const stored = JSON.parse(localStorage.getItem('kifedha_emails') || '[]');
-        if (!stored.includes(email)) {
-            stored.push(email);
-            localStorage.setItem('kifedha_emails', JSON.stringify(stored));
-        }
+        const stored = JSON.parse(localStorage.getItem('kifedha_leads') || '[]');
+        stored.push({ email: email, phone: phone || '', timestamp: new Date().toISOString() });
+        localStorage.setItem('kifedha_leads', JSON.stringify(stored));
     }
 
     // ===== EMAIL SUBMIT =====
     function handleEmailSubmit(e) {
         e.preventDefault();
-        const email = e.target.querySelector('input[type="email"]').value;
-        const btn = e.target.querySelector('button[type="submit"]');
+        const form = e.target;
+        const email = form.querySelector('input[type="email"]').value;
+        const phoneInput = form.querySelector('input[name="phone"]');
+        const phone = phoneInput ? phoneInput.value : '';
+        const btn = form.querySelector('button[type="submit"]');
 
         btn.disabled = true;
         btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Preparing Checklist...';
 
         userEmail = email;
 
-        // Submit email to Google Form
-        submitToGoogleForm(email);
+        // Submit email + phone to Google Form
+        submitToGoogleForm(email, phone);
 
         setTimeout(() => {
             document.getElementById('page-landing').classList.remove('active');
@@ -695,7 +689,7 @@
             renderQuestions();
             btn.disabled = false;
             btn.innerHTML = '<i class="fas fa-play mr-2"></i> Start The Checklist';
-            e.target.reset();
+            form.reset();
         }, 1200);
     }
 
