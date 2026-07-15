@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Freedom Check-Up | Kifedha - Your Financial Wellness Partner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: { 900: '#0f172a', 800: '#1e293b', 700: '#334155' },
+                        gold: { 400: '#d4af37', 500: '#c5a028', 600: '#b8941f' },
+                        cream: '#faf9f6',
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #faf9f6; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .kifedha-italic { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; }
+
+        .checkbox-custom {
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #d4af37;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .checkbox-custom:checked {
+            background-color: #d4af37;
+            border-color: #d4af37;
+        }
+        .checkbox-custom:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .checkbox-custom:hover { border-color: #b8941f; }
+
+        .radio-custom {
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border: 2px solid #cbd5e1;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .radio-custom:checked {
+            border-color: #d4af37;
+            background-color: #d4af37;
+        }
+        .radio-custom:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+        }
+        .radio-custom.yes:checked { border-color: #22c55e; background-color: #22c55e; }
+        .radio-custom.no:checked { border-color: #ef4444; background-color: #ef4444; }
+        .radio-custom.not-sure:checked { border-color: #f59e0b; background-color: #f59e0b; }
+
+        .progress-bar {
+            transition: width 0.5s ease;
+        }
+
+        .pillar-card {
+            transition: all 0.3s ease;
+        }
+        .pillar-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+        }
+
+        .score-ring {
+            transition: stroke-dashoffset 1s ease;
+        }
+
+        @keyframes pulse-gold {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+            50% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+        }
+        .cta-pulse { animation: pulse-gold 2s infinite; }
+
+        .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        .sticky-score {
+            backdrop-filter: blur(12px);
+        }
+
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; }
+            .print-break { page-break-before: always; }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body class="bg-cream text-navy-900">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gold-400/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="https://itsaboutfinancialfreedom.com" class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-navy-900 rounded-full flex items-center justify-center text-gold-400 font-serif font-bold text-sm">K</div>
+                    <div>
+                        <span class="kifedha-italic text-lg text-navy-900 block leading-none">Kifedha</span>
+                        <span class="text-[10px] text-gold-500 font-semibold tracking-wider">Your Financial Wellness Partner</span>
+                    </div>
+                </a>
+                <div class="flex items-center space-x-4">
+                    <button onclick="window.print()" class="text-navy-700 hover:text-gold-500 transition-colors text-sm font-medium no-print">
+                        <i class="fas fa-print mr-1"></i> Print
+                    </button>
+                    <a href="https://calendly.com/itsaboutfinancial-freedom/30min" target="_blank" class="no-print bg-navy-900 text-gold-400 px-4 py-2 rounded-full text-sm font-semibold hover:bg-navy-800 transition-all">
+                        Book a Call
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="pt-24 pb-12 bg-navy-900 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, rgba(212,175,55,0.3) 1px, transparent 0); background-size: 40px 40px;"></div>
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+            <span class="text-gold-400 font-semibold tracking-wider uppercase text-sm">Self-Assessment Tool</span>
+            <h1 class="font-serif text-4xl md:text-5xl font-bold text-white mt-3 mb-4">Financial Freedom Check-Up</h1>
+            <p class="text-white/70 text-lg max-w-2xl mx-auto">How financially healthy are you? Complete this 24-question assessment to identify your gaps and get a personalized roadmap to financial wellness.</p>
+            <div class="mt-6 flex items-center justify-center space-x-6 text-white/60 text-sm">
+                <span><i class="fas fa-clock mr-1 text-gold-400"></i> 5 min</span>
+                <span><i class="fas fa-clipboard-list mr-1 text-gold-400"></i> 24 questions</span>
+                <span><i class="fas fa-chart-pie mr-1 text-gold-400"></i> Instant score</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Immediate CTA Banner -->
+    <div class="bg-gold-400 py-3 text-center no-print">
+        <p class="text-navy-900 font-semibold text-sm px-4">
+            <i class="fas fa-user-tie mr-2"></i>
+            Not sure where to start? <a href="https://calendly.com/itsaboutfinancial-freedom/30min" target="_blank" class="underline font-bold hover:text-white transition-colors">Book a free 30-min call with a Financial Advisor</a> — no obligation.
+        </p>
+    </div>
+
+    <!-- Sticky Score Bar -->
+    <div id="stickyScore" class="sticky top-16 z-40 bg-white/95 backdrop-blur-md border-b border-gold-400/20 shadow-sm transform -translate-y-full transition-transform duration-300">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <div class="relative w-12 h-12">
+                    <svg class="w-12 h-12 transform -rotate-90" viewBox="0 0 48 48">
+                        <circle cx="24" cy="24" r="20" fill="none" stroke="#e2e8f0" stroke-width="4"/>
+                        <circle id="scoreCircle" cx="24" cy="24" r="20" fill="none" stroke="#d4af37" stroke-width="4" 
+                                stroke-dasharray="125.6" stroke-dashoffset="125.6" stroke-linecap="round" class="score-ring"/>
+                    </svg>
+                    <span id="stickyScoreText" class="absolute inset-0 flex items-center justify-center text-xs font-bold text-navy-900">0</span>
+                </div>
+                <div>
+                    <p class="text-sm font-semibold text-navy-900">Your Score</p>
+                    <p id="stickyScoreLabel" class="text-xs text-navy-500">Complete the checklist</p>
+                </div>
+            </div>
+            <a href="#results" id="stickyCta" class="hidden bg-gold-400 text-navy-900 px-4 py-2 rounded-full text-sm font-bold hover:bg-gold-500 transition-all">
+                View Results
+            </a>
+        </div>
+    </div>
+
+    <!-- Checklist -->
+    <section class="py-12 max-w-5xl mx-auto px-4">
+        <div class="bg-white rounded-2xl shadow-lg border border-gold-400/10 overflow-hidden">
+
+            <!-- Header Row -->
+            <div class="bg-navy-900 text-white p-4 grid grid-cols-12 gap-2 items-center text-sm font-semibold">
+                <div class="col-span-6 md:col-span-7">Question</div>
+                <div class="col-span-2 text-center">Yes</div>
+                <div class="col-span-2 text-center">No</div>
+                <div class="col-span-2 text-center">Not Sure</div>
+            </div>
+
+            <!-- Pillar 1: Cash Flow -->
+            <div class="pillar-card border-b border-gold-400/10">
+                <div class="bg-gold-400/10 p-4 flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-navy-900 rounded-xl flex items-center justify-center text-gold-400">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-serif text-lg font-bold text-navy-900">Pillar 1: Cash Flow Management</h3>
+                        <p class="text-sm text-navy-600">Track income, expenses, and budgeting habits</p>
+                    </div>
+                </div>
+                <div class="divide-y divide-gray-100">
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I know exactly how much money I earn every month.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q1" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q1" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q1" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I track my monthly expenses.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q2" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q2" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q2" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I have and follow a monthly budget.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q3" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q3" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q3" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I consistently save before spending.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q4" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q4" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q4" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pillar 2: Debt Management -->
+            <div class="pillar-card border-b border-gold-400/10">
+                <div class="bg-gold-400/10 p-4 flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-navy-900 rounded-xl flex items-center justify-center text-gold-400">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-serif text-lg font-bold text-navy-900">Pillar 2: Debt Management</h3>
+                        <p class="text-sm text-navy-600">Understand and control your debt</p>
+                    </div>
+                </div>
+                <div class="divide-y divide-gray-100">
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I know exactly how much debt I owe.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q5" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q5" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q5" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">My debt repayments are manageable.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q6" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q6" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q6" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I have a strategy to clear my debt.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q7" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q7" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q7" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I am not relying on debt to meet my monthly expenses.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q8" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q8" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q8" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pillar 3: Savings & Investments -->
+            <div class="pillar-card border-b border-gold-400/10">
+                <div class="bg-gold-400/10 p-4 flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-navy-900 rounded-xl flex items-center justify-center text-gold-400">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-serif text-lg font-bold text-navy-900">Pillar 3: Savings & Investments</h3>
+                        <p class="text-sm text-navy-600">Build emergency funds and grow wealth</p>
+                    </div>
+                </div>
+                <div class="divide-y divide-gray-100">
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I have an emergency fund covering at least 3–6 months of expenses.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q9" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q9" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q9" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I save consistently every month.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q10" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q10" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q10" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">My investments are aligned to my financial goals.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q11" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q11" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q11" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">My money is growing faster than inflation.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q12" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q12" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q12" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pillar 4: Retirement Planning -->
+            <div class="pillar-card border-b border-gold-400/10">
+                <div class="bg-gold-400/10 p-4 flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-navy-900 rounded-xl flex items-center justify-center text-gold-400">
+                        <i class="fas fa-chair"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-serif text-lg font-bold text-navy-900">Pillar 4: Retirement Planning</h3>
+                        <p class="text-sm text-navy-600">Plan for a comfortable and secure retirement</p>
+                    </div>
+                </div>
+                <div class="divide-y divide-gray-100">
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I know how much I will need for retirement.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q13" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q13" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q13" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I contribute regularly to a retirement plan or pension.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q14" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q14" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q14" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I understand the power of compound growth.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q15" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q15" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q15" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I have a retirement timeline and plan.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q16" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q16" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q16" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pillar 5: Risk Management -->
+            <div class="pillar-card border-b border-gold-400/10">
+                <div class="bg-gold-400/10 p-4 flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-navy-900 rounded-xl flex items-center justify-center text-gold-400">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-serif text-lg font-bold text-navy-900">Pillar 5: Risk Management (Insurance)</h3>
+                        <p class="text-sm text-navy-600">Protect yourself, your family, and your assets</p>
+                    </div>
+                </div>
+                <div class="divide-y divide-gray-100">
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I have adequate health insurance.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q17" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q17" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q17" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">My family would be financially secure if I died unexpectedly.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q18" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q18" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q18" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">My income is protected if I become disabled or critically ill.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q19" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q19" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q19" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">My business or major assets are adequately insured.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q20" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q20" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q20" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pillar 6: Estate & Legacy -->
+            <div class="pillar-card">
+                <div class="bg-gold-400/10 p-4 flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-navy-900 rounded-xl flex items-center justify-center text-gold-400">
+                        <i class="fas fa-file-signature"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-serif text-lg font-bold text-navy-900">Pillar 6: Estate & Legacy Planning</h3>
+                        <p class="text-sm text-navy-600">Secure your legacy for future generations</p>
+                    </div>
+                </div>
+                <div class="divide-y divide-gray-100">
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I have written a valid will.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q21" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q21" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q21" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">My beneficiaries are up to date on all my financial accounts.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q22" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q22" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q22" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I have a plan for transferring my wealth to my family.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q23" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q23" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q23" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
+                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">My loved ones know where important financial documents are kept.</div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q24" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q24" value="0" class="radio-custom no" onchange="calculateScore()"></div>
+                        <div class="col-span-2 text-center"><input type="radio" name="q24" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calculate Button -->
+        <div class="text-center mt-8 no-print">
+            <button onclick="calculateScore(true)" class="bg-navy-900 text-gold-400 px-10 py-4 rounded-full font-bold text-lg hover:bg-navy-800 transition-all transform hover:scale-105 shadow-lg">
+                <i class="fas fa-calculator mr-2"></i> Calculate My Score
+            </button>
+            <p class="text-sm text-navy-500 mt-3">Answer all 24 questions to see your results</p>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="results" class="py-12 max-w-4xl mx-auto px-4 hidden">
+        <div class="bg-white rounded-2xl shadow-xl border border-gold-400/20 overflow-hidden">
+
+            <!-- Score Table -->
+            <div class="bg-cream p-6 border-b border-gold-400/20">
+                <h3 class="font-serif text-lg font-bold text-navy-900 mb-4 text-center">Financial Wellness Score Guide</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="bg-navy-900 text-white">
+                                <th class="px-4 py-3 text-left rounded-tl-lg">Score Range</th>
+                                <th class="px-4 py-3 text-left">Rating</th>
+                                <th class="px-4 py-3 text-left rounded-tr-lg">What It Means</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr class="bg-green-50 hover:bg-green-100 transition-colors">
+                                <td class="px-4 py-3 font-bold text-green-700">40 – 48</td>
+                                <td class="px-4 py-3 font-semibold text-green-700">Financially Strong</td>
+                                <td class="px-4 py-3 text-navy-600">Solid foundation. Focus on optimizing investments, tax efficiency, and legacy planning.</td>
+                            </tr>
+                            <tr class="bg-blue-50 hover:bg-blue-100 transition-colors">
+                                <td class="px-4 py-3 font-bold text-blue-700">30 – 39</td>
+                                <td class="px-4 py-3 font-semibold text-blue-700">Good Progress</td>
+                                <td class="px-4 py-3 text-navy-600">Doing well, but gaps exist. A personalized review will strengthen your plan.</td>
+                            </tr>
+                            <tr class="bg-yellow-50 hover:bg-yellow-100 transition-colors">
+                                <td class="px-4 py-3 font-bold text-yellow-700">20 – 29</td>
+                                <td class="px-4 py-3 font-semibold text-yellow-700">Needs Attention</td>
+                                <td class="px-4 py-3 text-navy-600">Several pillars need improvement. Address gaps now for long-term security.</td>
+                            </tr>
+                            <tr class="bg-red-50 hover:bg-red-100 transition-colors">
+                                <td class="px-4 py-3 font-bold text-red-700">Below 20</td>
+                                <td class="px-4 py-3 font-semibold text-red-700">High Priority</td>
+                                <td class="px-4 py-3 text-navy-600">Foundation needs immediate attention. Every pillar can be strengthened with a plan.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Immediate CTA Banner -->
+            <div class="bg-gold-400 p-4 text-center">
+                <p class="text-navy-900 font-semibold text-sm md:text-base">
+                    <i class="fas fa-phone-alt mr-2"></i>
+                    Need clarity on your score? <a href="https://calendly.com/itsaboutfinancial-freedom/30min" target="_blank" class="underline font-bold hover:text-white transition-colors">Speak to a Financial Advisor today</a> — it's free.
+                </p>
+            </div>
+
+            <!-- Score Header -->
+            <div class="bg-navy-900 p-8 text-center relative overflow-hidden">
+                <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, rgba(212,175,55,0.3) 1px, transparent 0); background-size: 40px 40px;"></div>
+                <div class="relative z-10">
+                    <p class="text-gold-400 font-semibold tracking-wider uppercase text-sm mb-4">Your Financial Wellness Score</p>
+                    <div class="flex items-center justify-center mb-4">
+                        <div class="relative w-40 h-40">
+                            <svg class="w-40 h-40 transform -rotate-90" viewBox="0 0 160 160">
+                                <circle cx="80" cy="80" r="70" fill="none" stroke="#1e293b" stroke-width="8"/>
+                                <circle id="resultCircle" cx="80" cy="80" r="70" fill="none" stroke="#d4af37" stroke-width="8" 
+                                        stroke-dasharray="439.8" stroke-dashoffset="439.8" stroke-linecap="round" class="score-ring"/>
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                <span id="resultScore" class="text-5xl font-serif font-bold text-white">0</span>
+                                <span class="text-sm text-white/60">/ 48</span>
+                            </div>
+                        </div>
+                    </div>
+                    <h2 id="resultTitle" class="font-serif text-3xl font-bold text-white mb-2">Complete the checklist</h2>
+                    <p id="resultDescription" class="text-white/70 max-w-xl mx-auto">Answer all questions to see your personalized financial health assessment.</p>
+                </div>
+            </div>
+
+            <!-- Pillar Breakdown -->
+            <div class="p-8">
+                <h3 class="font-serif text-xl font-bold text-navy-900 mb-6">Pillar Breakdown</h3>
+                <div class="space-y-4" id="pillarBreakdown">
+                    <!-- Filled by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Gap Analysis -->
+            <div class="p-8 bg-cream border-t border-gold-400/10">
+                <h3 class="font-serif text-xl font-bold text-navy-900 mb-4">Your Financial Gap Analysis</h3>
+                <p class="text-navy-600 mb-4">Areas where you answered <strong>No</strong> or <strong>Not Sure</strong> most often:</p>
+                <div id="gapAnalysis" class="flex flex-wrap gap-2">
+                    <!-- Filled by JavaScript -->
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="p-8 bg-navy-900 text-center">
+                <p class="text-white/80 text-lg mb-6 italic">"Financial freedom doesn't happen by chance — it happens by design."</p>
+                <a href="https://calendly.com/itsaboutfinancial-freedom/30min" target="_blank" class="cta-pulse inline-flex items-center space-x-2 bg-gold-400 text-navy-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-gold-500 transition-all transform hover:scale-105">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Book Your Free 30-Min Check-Up</span>
+                </a>
+                <p class="text-white/50 text-sm mt-4">No obligation. Just clarity on your next steps.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-navy-900 border-t border-white/10 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex items-center justify-center space-x-3 mb-4">
+                <div class="w-8 h-8 bg-gold-400 rounded-full flex items-center justify-center text-navy-900 font-serif font-bold text-sm">K</div>
+                <div>
+                    <span class="kifedha-italic text-xl text-white block leading-none">Kifedha</span>
+                    <span class="text-xs text-gold-400">Your Financial Wellness Partner</span>
+                </div>
+            </div>
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="https://www.tiktok.com/@itsaboutfinancialfreedom" target="_blank" class="text-white/60 hover:text-gold-400 transition-colors text-xl"><i class="fab fa-tiktok"></i></a>
+                <a href="mailto:itsaboutfinancialfreedom@gmail.com" class="text-white/60 hover:text-gold-400 transition-colors text-xl"><i class="fas fa-envelope"></i></a>
+                <a href="https://wa.me/254722943967" target="_blank" class="text-white/60 hover:text-gold-400 transition-colors text-xl"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <p class="text-white/40 text-sm"> 2026 itsaboutfinancialfreedom</p>
+        </div>
+    </footer>
+
+    <script>
+        const pillarData = {
+            'Cash Flow Management': { questions: ['q1','q2','q3','q4'], icon: 'fa-wallet', color: 'bg-blue-500' },
+            'Debt Management': { questions: ['q5','q6','q7','q8'], icon: 'fa-credit-card', color: 'bg-red-500' },
+            'Savings & Investments': { questions: ['q9','q10','q11','q12'], icon: 'fa-piggy-bank', color: 'bg-green-500' },
+            'Retirement Planning': { questions: ['q13','q14','q15','q16'], icon: 'fa-chair', color: 'bg-purple-500' },
+            'Risk Management': { questions: ['q17','q18','q19','q20'], icon: 'fa-shield-alt', color: 'bg-orange-500' },
+            'Estate & Legacy': { questions: ['q21','q22','q23','q24'], icon: 'fa-file-signature', color: 'bg-indigo-500' }
+        };
+
+        const scoreRanges = [
+            { min: 40, max: 48, title: 'Financially Strong', desc: 'You have a solid financial foundation. Focus on optimizing your investments, tax efficiency, and legacy planning.', color: '#22c55e' },
+            { min: 30, max: 39, title: 'Good Progress', desc: 'You\'re doing well, but there are gaps that could become expensive if left unattended. A personalized financial review will help strengthen your plan.', color: '#3b82f6' },
+            { min: 20, max: 29, title: 'Needs Attention', desc: 'Several important pillars require improvement. Addressing these gaps now can significantly improve your long-term financial security.', color: '#f59e0b' },
+            { min: 0, max: 19, title: 'High Priority', desc: 'Your financial foundation needs immediate attention. The good news is that with a structured plan, every pillar can be strengthened over time.', color: '#ef4444' }
+        ];
+
+        function calculateScore(scrollToResults = false) {
+            let totalScore = 0;
+            let answeredCount = 0;
+            const pillarScores = {};
+            const gapAreas = [];
+
+            for (const [pillarName, data] of Object.entries(pillarData)) {
+                let pillarScore = 0;
+                let pillarNoCount = 0;
+                let pillarNotSureCount = 0;
+
+                for (const qName of data.questions) {
+                    const selected = document.querySelector(`input[name="${qName}"]:checked`);
+                    if (selected) {
+                        const val = parseInt(selected.value);
+                        totalScore += val;
+                        pillarScore += val;
+                        answeredCount++;
+                        if (val === 0) pillarNoCount++;
+                        if (val === 1) pillarNotSureCount++;
+                    }
+                }
+
+                pillarScores[pillarName] = { score: pillarScore, max: data.questions.length * 2, noCount: pillarNoCount, notSureCount: pillarNotSureCount };
+
+                if (pillarNoCount + pillarNotSureCount >= 2) {
+                    gapAreas.push(pillarName);
+                }
+            }
+
+            // Update sticky score
+            const stickyScore = document.getElementById('stickyScore');
+            const stickyScoreText = document.getElementById('stickyScoreText');
+            const stickyScoreLabel = document.getElementById('stickyScoreLabel');
+            const stickyCta = document.getElementById('stickyCta');
+            const scoreCircle = document.getElementById('scoreCircle');
+            const resultCircle = document.getElementById('resultCircle');
+
+            if (answeredCount > 0) {
+                stickyScore.classList.remove('-translate-y-full');
+                stickyScoreText.textContent = totalScore;
+
+                const circumference = 125.6;
+                const offset = circumference - (totalScore / 48) * circumference;
+                if (scoreCircle) scoreCircle.style.strokeDashoffset = offset;
+
+                if (answeredCount >= 24) {
+                    stickyScoreLabel.textContent = 'View your full results below';
+                    stickyCta.classList.remove('hidden');
+
+                    // Show results section
+                    const resultsSection = document.getElementById('results');
+                    resultsSection.classList.remove('hidden');
+
+                    // Update result circle
+                    const resultCircumference = 439.8;
+                    const resultOffset = resultCircumference - (totalScore / 48) * resultCircumference;
+                    if (resultCircle) resultCircle.style.strokeDashoffset = resultOffset;
+
+                    // Update score text
+                    document.getElementById('resultScore').textContent = totalScore;
+
+                    // Find score range
+                    const range = scoreRanges.find(r => totalScore >= r.min && totalScore <= r.max);
+                    if (range) {
+                        document.getElementById('resultTitle').textContent = range.title;
+                        document.getElementById('resultTitle').style.color = range.color;
+                        document.getElementById('resultDescription').textContent = range.desc;
+                        if (resultCircle) resultCircle.style.stroke = range.color;
+                    }
+
+                    // Build pillar breakdown
+                    const breakdownHtml = Object.entries(pillarScores).map(([name, data]) => {
+                        const percentage = (data.score / data.max) * 100;
+                        const barColor = percentage >= 75 ? 'bg-green-500' : percentage >= 50 ? 'bg-blue-500' : percentage >= 25 ? 'bg-yellow-500' : 'bg-red-500';
+                        return `
+                            <div class="flex items-center space-x-4">
+                                <div class="w-32 text-sm font-medium text-navy-700">${name}</div>
+                                <div class="flex-1 bg-gray-200 rounded-full h-3">
+                                    <div class="${barColor} h-3 rounded-full transition-all duration-1000" style="width: ${percentage}%"></div>
+                                </div>
+                                <div class="w-16 text-right text-sm font-bold text-navy-900">${data.score}/${data.max}</div>
+                            </div>
+                        `;
+                    }).join('');
+                    document.getElementById('pillarBreakdown').innerHTML = breakdownHtml;
+
+                    // Build gap analysis
+                    const gapHtml = gapAreas.length > 0 
+                        ? gapAreas.map(area => `<span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-medium border border-red-200">${area}</span>`).join('')
+                        : '<span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-200">No major gaps detected!</span>';
+                    document.getElementById('gapAnalysis').innerHTML = gapHtml;
+
+                    if (scrollToResults) {
+                        document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+                    }
+                } else {
+                    stickyScoreLabel.textContent = `${answeredCount}/24 answered`;
+                    stickyCta.classList.add('hidden');
+                }
+            }
+        }
+
+        // Show sticky score on scroll
+        window.addEventListener('scroll', () => {
+            const stickyScore = document.getElementById('stickyScore');
+            if (window.scrollY > 400) {
+                stickyScore.classList.remove('-translate-y-full');
+            } else {
+                stickyScore.classList.add('-translate-y-full');
+            }
+        });
+    </script>
+</body>
+</html>
