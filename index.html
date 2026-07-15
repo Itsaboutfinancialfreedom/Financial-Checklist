@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financial Freedom Check-Up | Kifedha - Your Financial Wellness Partner</title>
+    <title>Get Your Free Financial Gap Analysis Checklist | Kifedha</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
@@ -25,679 +25,809 @@
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #faf9f6; }
+        body { font-family: 'Inter', sans-serif; }
         .font-serif { font-family: 'Playfair Display', serif; }
         .kifedha-italic { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; }
 
-        .checkbox-custom {
-            appearance: none;
-            width: 24px;
-            height: 24px;
-            border: 2px solid #d4af37;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
+        .hero-bg {
+            background-image: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
         }
-        .checkbox-custom:checked {
-            background-color: #d4af37;
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .float { animation: float 4s ease-in-out infinite; }
+
+        .form-input:focus {
+            outline: none;
             border-color: #d4af37;
-        }
-        .checkbox-custom:checked::after {
-            content: '✓';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
-        }
-        .checkbox-custom:hover { border-color: #b8941f; }
-
-        .radio-custom {
-            appearance: none;
-            width: 22px;
-            height: 22px;
-            border: 2px solid #cbd5e1;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
-        }
-        .radio-custom:checked {
-            border-color: #d4af37;
-            background-color: #d4af37;
-        }
-        .radio-custom:checked::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 8px;
-            height: 8px;
-            background: white;
-            border-radius: 50%;
-        }
-        .radio-custom.yes:checked { border-color: #22c55e; background-color: #22c55e; }
-        .radio-custom.no:checked { border-color: #ef4444; background-color: #ef4444; }
-        .radio-custom.not-sure:checked { border-color: #f59e0b; background-color: #f59e0b; }
-
-        .progress-bar {
-            transition: width 0.5s ease;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
         }
 
-        .pillar-card {
-            transition: all 0.3s ease;
+        .pulse-glow {
+            animation: pulse-glow 2s infinite;
         }
-        .pillar-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-        }
-
-        .score-ring {
-            transition: stroke-dashoffset 1s ease;
-        }
-
-        @keyframes pulse-gold {
+        @keyframes pulse-glow {
             0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
             50% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
         }
-        .cta-pulse { animation: pulse-gold 2s infinite; }
 
         .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-        .sticky-score {
-            backdrop-filter: blur(12px);
+        /* Checklist answer buttons */
+        .answer-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 72px;
+        }
+        .answer-btn:hover {
+            border-color: #d4af37;
+            background: #fefdf5;
+        }
+        .answer-btn.selected {
+            border-color: #d4af37;
+            background: #fefdf5;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+        }
+        .answer-btn.selected .answer-circle {
+            border-color: #d4af37;
+        }
+        .answer-btn.selected .answer-dot {
+            opacity: 1 !important;
+        }
+        .answer-btn.selected .answer-label {
+            color: #b8941f;
+            font-weight: 700;
+        }
+        .answer-circle {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid #d1d5db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .answer-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #d4af37;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .answer-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            transition: all 0.2s ease;
         }
 
-        @media print {
-            .no-print { display: none !important; }
-            body { background: white; }
-            .print-break { page-break-before: always; }
+        /* Score circle animation */
+        .score-circle {
+            transition: stroke-dashoffset 2s ease-out;
+        }
+        @keyframes countUp {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .score-pop {
+            animation: countUp 0.6s ease-out;
+        }
+
+        /* Progress bar */
+        .progress-fill {
+            transition: width 0.5s ease;
+        }
+
+        /* Category bar animation */
+        .cat-bar {
+            transition: width 1.2s ease-out;
+        }
+
+        /* Smooth page transitions */
+        .page-section {
+            display: none;
+        }
+        .page-section.active {
+            display: block;
+            animation: fadeInPage 0.5s ease;
+        }
+        @keyframes fadeInPage {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Google Form iframe hidden */
+        .hidden-iframe {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border: 0;
+            visibility: hidden;
         }
     </style>
 <base target="_blank">
 </head>
 <body class="bg-cream text-navy-900">
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gold-400/20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="https://itsaboutfinancialfreedom.com" class="flex items-center space-x-3">
-                    <div class="w-8 h-8 bg-navy-900 rounded-full flex items-center justify-center text-gold-400 font-serif font-bold text-sm">K</div>
-                    <div>
-                        <span class="kifedha-italic text-lg text-navy-900 block leading-none">Kifedha</span>
-                        <span class="text-[10px] text-gold-500 font-semibold tracking-wider">Your Financial Wellness Partner</span>
+    <!-- Hidden iframe for Google Form submission -->
+    <iframe name="googleFormTarget" class="hidden-iframe"></iframe>
+
+    <!-- ==================== PAGE 1: LANDING ==================== -->
+    <div id="page-landing" class="page-section active">
+        <!-- Navigation -->
+        <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gold-400/20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-navy-900 rounded-full flex items-center justify-center text-gold-400 font-serif font-bold text-sm">K</div>
+                        <div>
+                            <span class="kifedha-italic text-lg text-navy-900 block leading-none">Kifedha</span>
+                            <span class="text-[10px] text-gold-500 font-semibold tracking-wider">Your Financial Wellness Partner</span>
+                        </div>
                     </div>
-                </a>
-                <div class="flex items-center space-x-4">
-                    <button onclick="window.print()" class="text-navy-700 hover:text-gold-500 transition-colors text-sm font-medium no-print">
-                        <i class="fas fa-print mr-1"></i> Print
-                    </button>
-                    <a href="https://calendly.com/itsaboutfinancial-freedom/30min" target="_blank" class="no-print bg-navy-900 text-gold-400 px-4 py-2 rounded-full text-sm font-semibold hover:bg-navy-800 transition-all">
-                        Book a Call
+                    <a href="https://calendly.com/itsaboutfinancial-freedom/30min" target="_blank" class="text-sm font-semibold text-navy-700 hover:text-gold-500 transition-colors">
+                        <i class="fas fa-phone-alt mr-1"></i> Speak to an Advisor
                     </a>
                 </div>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <!-- Hero -->
-    <section class="pt-24 pb-12 bg-navy-900 relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, rgba(212,175,55,0.3) 1px, transparent 0); background-size: 40px 40px;"></div>
-        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
-            <span class="text-gold-400 font-semibold tracking-wider uppercase text-sm">Self-Assessment Tool</span>
-            <h1 class="font-serif text-4xl md:text-5xl font-bold text-white mt-3 mb-4">Financial Freedom Check-Up</h1>
-            <p class="text-white/70 text-lg max-w-2xl mx-auto">How financially healthy are you? Complete this 24-question assessment to identify your gaps and get a personalized roadmap to financial wellness.</p>
-            <div class="mt-6 flex items-center justify-center space-x-6 text-white/60 text-sm">
-                <span><i class="fas fa-clock mr-1 text-gold-400"></i> 5 min</span>
-                <span><i class="fas fa-clipboard-list mr-1 text-gold-400"></i> 24 questions</span>
-                <span><i class="fas fa-chart-pie mr-1 text-gold-400"></i> Instant score</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Immediate CTA Banner -->
-    <div class="bg-gold-400 py-3 text-center no-print">
-        <p class="text-navy-900 font-semibold text-sm px-4">
-            <i class="fas fa-user-tie mr-2"></i>
-            Not sure where to start? <a href="https://calendly.com/itsaboutfinancial-freedom/30min" target="_blank" class="underline font-bold hover:text-white transition-colors">Book a free 30-min call with a Financial Advisor</a> — no obligation.
-        </p>
-    </div>
-
-    <!-- Sticky Score Bar -->
-    <div id="stickyScore" class="sticky top-16 z-40 bg-white/95 backdrop-blur-md border-b border-gold-400/20 shadow-sm transform -translate-y-full transition-transform duration-300">
-        <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center space-x-4">
-                <div class="relative w-12 h-12">
-                    <svg class="w-12 h-12 transform -rotate-90" viewBox="0 0 48 48">
-                        <circle cx="24" cy="24" r="20" fill="none" stroke="#e2e8f0" stroke-width="4"/>
-                        <circle id="scoreCircle" cx="24" cy="24" r="20" fill="none" stroke="#d4af37" stroke-width="4" 
-                                stroke-dasharray="125.6" stroke-dashoffset="125.6" stroke-linecap="round" class="score-ring"/>
-                    </svg>
-                    <span id="stickyScoreText" class="absolute inset-0 flex items-center justify-center text-xs font-bold text-navy-900">0</span>
-                </div>
-                <div>
-                    <p class="text-sm font-semibold text-navy-900">Your Score</p>
-                    <p id="stickyScoreLabel" class="text-xs text-navy-500">Complete the checklist</p>
-                </div>
-            </div>
-            <a href="#results" id="stickyCta" class="hidden bg-gold-400 text-navy-900 px-4 py-2 rounded-full text-sm font-bold hover:bg-gold-500 transition-all">
-                View Results
-            </a>
-        </div>
-    </div>
-
-    <!-- Checklist -->
-    <section class="py-12 max-w-5xl mx-auto px-4">
-        <div class="bg-white rounded-2xl shadow-lg border border-gold-400/10 overflow-hidden">
-
-            <!-- Header Row -->
-            <div class="bg-navy-900 text-white p-4 grid grid-cols-12 gap-2 items-center text-sm font-semibold">
-                <div class="col-span-6 md:col-span-7">Question</div>
-                <div class="col-span-2 text-center">Yes</div>
-                <div class="col-span-2 text-center">No</div>
-                <div class="col-span-2 text-center">Not Sure</div>
-            </div>
-
-            <!-- Pillar 1: Cash Flow -->
-            <div class="pillar-card border-b border-gold-400/10">
-                <div class="bg-gold-400/10 p-4 flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-navy-900 rounded-xl flex items-center justify-center text-gold-400">
-                        <i class="fas fa-wallet"></i>
+        <!-- Hero Section -->
+        <section class="hero-bg min-h-screen flex items-center justify-center pt-16 relative">
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-navy-900/50"></div>
+            <div class="max-w-3xl mx-auto px-4 text-center relative z-10">
+                <div class="fade-in visible">
+                    <span class="inline-block bg-gold-400/20 border border-gold-400/40 text-gold-400 px-4 py-1 rounded-full text-sm font-semibold mb-6">
+                        <i class="fas fa-gift mr-1"></i> Free Resource
+                    </span>
+                    <h1 class="font-serif text-4xl md:text-6xl font-bold text-white leading-tight mb-6">
+                        Spot money leaks and<br>missing steps in your<br><span class="text-gold-400">finances.</span>
+                    </h1>
+                    <p class="text-white/80 text-lg md:text-xl max-w-2xl mx-auto mb-8">
+                        Get your <strong>Free Financial Gap Analysis Checklist</strong> — a 24-question self-assessment that reveals exactly where your money is hiding and what to fix first.
+                    </p>
+                    <!-- Email Form -->
+                    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-white/20 max-w-xl mx-auto">
+                        <form id="leadForm" onsubmit="handleEmailSubmit(event)">
+                            <div class="flex flex-col md:flex-row gap-3">
+                                <input type="email" id="emailInput" placeholder="Enter your email address" required
+                                    class="form-input flex-1 px-5 py-4 rounded-xl bg-white text-navy-900 placeholder-gray-400 border-2 border-transparent text-base transition-all">
+                                <button type="submit" id="submitBtn"
+                                    class="pulse-glow bg-gold-400 text-navy-900 px-8 py-4 rounded-xl font-bold text-base hover:bg-gold-500 transition-all transform hover:scale-105 whitespace-nowrap">
+                                    <i class="fas fa-play mr-2"></i> Start The Checklist
+                                </button>
+                            </div>
+                            <p class="text-white/60 text-xs mt-3 text-left">
+                                <i class="fas fa-lock mr-1"></i> We respect your privacy. No spam, ever. Unsubscribe anytime.
+                            </p>
+                        </form>
                     </div>
-                    <div>
-                        <h3 class="font-serif text-lg font-bold text-navy-900">Pillar 1: Cash Flow Management</h3>
-                        <p class="text-sm text-navy-600">Track income, expenses, and budgeting habits</p>
-                    </div>
-                </div>
-                <div class="divide-y divide-gray-100">
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I know exactly how much money I earn every month.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q1" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q1" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q1" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
-                    </div>
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I track my monthly expenses.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q2" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q2" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q2" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
-                    </div>
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I have and follow a monthly budget.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q3" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q3" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q3" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
-                    </div>
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I consistently save before spending.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q4" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q4" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q4" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    <!-- Trust badges -->
+                    <div class="flex flex-wrap items-center justify-center gap-6 mt-8 text-white/60 text-sm">
+                        <span class="flex items-center space-x-2"><i class="fas fa-check-circle text-gold-400"></i><span>Instant Results</span></span>
+                        <span class="flex items-center space-x-2"><i class="fas fa-check-circle text-gold-400"></i><span>24 Questions</span></span>
+                        <span class="flex items-center space-x-2"><i class="fas fa-check-circle text-gold-400"></i><span>Free Score & Analysis</span></span>
                     </div>
                 </div>
             </div>
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/40 animate-bounce">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </div>
+        </section>
 
-            <!-- Pillar 2: Debt Management -->
-            <div class="pillar-card border-b border-gold-400/10">
-                <div class="bg-gold-400/10 p-4 flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-navy-900 rounded-xl flex items-center justify-center text-gold-400">
-                        <i class="fas fa-credit-card"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-serif text-lg font-bold text-navy-900">Pillar 2: Debt Management</h3>
-                        <p class="text-sm text-navy-600">Understand and control your debt</p>
-                    </div>
+        <!-- What You'll Get Section -->
+        <section class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="text-center mb-12">
+                    <span class="text-gold-500 font-semibold tracking-wider uppercase text-sm">What's Inside</span>
+                    <h2 class="font-serif text-3xl md:text-4xl font-bold text-navy-900 mt-3">Your Checklist Covers 6 Pillars</h2>
                 </div>
-                <div class="divide-y divide-gray-100">
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I know exactly how much debt I owe.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q5" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q5" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q5" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-cream rounded-2xl p-6 border border-gold-400/10 hover:shadow-lg transition-all">
+                        <div class="w-12 h-12 bg-navy-900 rounded-xl flex items-center justify-center text-gold-400 text-xl mb-4"><i class="fas fa-wallet"></i></div>
+                        <h3 class="font-bold text-navy-900 mb-2">Cash Flow Management</h3>
+                        <p class="text-navy-600 text-sm">Track income, expenses, and budgeting habits that actually stick.</p>
                     </div>
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">My debt repayments are manageable.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q6" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q6" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q6" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    <div class="bg-cream rounded-2xl p-6 border border-gold-400/10 hover:shadow-lg transition-all">
+                        <div class="w-12 h-12 bg-navy-900 rounded-xl flex items-center justify-center text-gold-400 text-xl mb-4"><i class="fas fa-credit-card"></i></div>
+                        <h3 class="font-bold text-navy-900 mb-2">Debt Management</h3>
+                        <p class="text-navy-600 text-sm">Know what you owe and create a clear strategy to eliminate debt.</p>
                     </div>
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I have a strategy to clear my debt.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q7" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q7" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q7" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    <div class="bg-cream rounded-2xl p-6 border border-gold-400/10 hover:shadow-lg transition-all">
+                        <div class="w-12 h-12 bg-navy-900 rounded-xl flex items-center justify-center text-gold-400 text-xl mb-4"><i class="fas fa-piggy-bank"></i></div>
+                        <h3 class="font-bold text-navy-900 mb-2">Savings & Investments</h3>
+                        <p class="text-navy-600 text-sm">Build emergency funds and grow wealth faster than inflation.</p>
                     </div>
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I am not relying on debt to meet my monthly expenses.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q8" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q8" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q8" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    <div class="bg-cream rounded-2xl p-6 border border-gold-400/10 hover:shadow-lg transition-all">
+                        <div class="w-12 h-12 bg-navy-900 rounded-xl flex items-center justify-center text-gold-400 text-xl mb-4"><i class="fas fa-chair"></i></div>
+                        <h3 class="font-bold text-navy-900 mb-2">Retirement Planning</h3>
+                        <p class="text-navy-600 text-sm">Know your retirement number and build a timeline that works.</p>
+                    </div>
+                    <div class="bg-cream rounded-2xl p-6 border border-gold-400/10 hover:shadow-lg transition-all">
+                        <div class="w-12 h-12 bg-navy-900 rounded-xl flex items-center justify-center text-gold-400 text-xl mb-4"><i class="fas fa-shield-alt"></i></div>
+                        <h3 class="font-bold text-navy-900 mb-2">Risk Management</h3>
+                        <p class="text-navy-600 text-sm">Protect your income, health, family, and assets with proper insurance.</p>
+                    </div>
+                    <div class="bg-cream rounded-2xl p-6 border border-gold-400/10 hover:shadow-lg transition-all">
+                        <div class="w-12 h-12 bg-navy-900 rounded-xl flex items-center justify-center text-gold-400 text-xl mb-4"><i class="fas fa-file-signature"></i></div>
+                        <h3 class="font-bold text-navy-900 mb-2">Estate & Legacy</h3>
+                        <p class="text-navy-600 text-sm">Secure your legacy with wills, trusts, and wealth transfer plans.</p>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Pillar 3: Savings & Investments -->
-            <div class="pillar-card border-b border-gold-400/10">
-                <div class="bg-gold-400/10 p-4 flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-navy-900 rounded-xl flex items-center justify-center text-gold-400">
-                        <i class="fas fa-piggy-bank"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-serif text-lg font-bold text-navy-900">Pillar 3: Savings & Investments</h3>
-                        <p class="text-sm text-navy-600">Build emergency funds and grow wealth</p>
-                    </div>
+        <!-- How It Works -->
+        <section class="py-20 bg-navy-900 relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, rgba(212,175,55,0.3) 1px, transparent 0); background-size: 40px 40px;"></div>
+            <div class="max-w-4xl mx-auto px-4 relative z-10">
+                <div class="text-center mb-12">
+                    <span class="text-gold-400 font-semibold tracking-wider uppercase text-sm">How It Works</span>
+                    <h2 class="font-serif text-3xl md:text-4xl font-bold text-white mt-3">3 Steps to Financial Clarity</h2>
                 </div>
-                <div class="divide-y divide-gray-100">
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I have an emergency fund covering at least 3–6 months of expenses.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q9" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q9" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q9" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gold-400 rounded-full flex items-center justify-center text-navy-900 font-serif text-2xl font-bold mx-auto mb-4">1</div>
+                        <h3 class="font-bold text-white text-lg mb-2">Enter Your Email</h3>
+                        <p class="text-white/60 text-sm">Type your email and hit "Start The Checklist."</p>
                     </div>
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I save consistently every month.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q10" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q10" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q10" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gold-400 rounded-full flex items-center justify-center text-navy-900 font-serif text-2xl font-bold mx-auto mb-4">2</div>
+                        <h3 class="font-bold text-white text-lg mb-2">Answer 24 Questions</h3>
+                        <p class="text-white/60 text-sm">Go through the interactive checklist — Yes, No, or Not Sure.</p>
                     </div>
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">My investments are aligned to my financial goals.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q11" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q11" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q11" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
-                    </div>
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">My money is growing faster than inflation.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q12" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q12" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q12" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gold-400 rounded-full flex items-center justify-center text-navy-900 font-serif text-2xl font-bold mx-auto mb-4">3</div>
+                        <h3 class="font-bold text-white text-lg mb-2">Get Your Score</h3>
+                        <p class="text-white/60 text-sm">See your financial wellness score and personalized gap analysis instantly.</p>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Pillar 4: Retirement Planning -->
-            <div class="pillar-card border-b border-gold-400/10">
-                <div class="bg-gold-400/10 p-4 flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-navy-900 rounded-xl flex items-center justify-center text-gold-400">
-                        <i class="fas fa-chair"></i>
+        <!-- Final CTA -->
+        <section class="py-20 bg-cream">
+            <div class="max-w-2xl mx-auto px-4 text-center">
+                <h2 class="font-serif text-3xl md:text-4xl font-bold text-navy-900 mb-4">Ready to Find Your Financial Gaps?</h2>
+                <p class="text-navy-600 text-lg mb-8">Join thousands who have taken control of their finances. It takes just 5 minutes.</p>
+                <form onsubmit="handleEmailSubmit(event)" class="max-w-md mx-auto">
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="email" placeholder="Enter your email address" required
+                            class="form-input flex-1 px-5 py-4 rounded-xl bg-white text-navy-900 placeholder-gray-400 border-2 border-gray-200 text-base transition-all">
+                        <button type="submit"
+                            class="bg-navy-900 text-gold-400 px-8 py-4 rounded-xl font-bold text-base hover:bg-navy-800 transition-all transform hover:scale-105 whitespace-nowrap">
+                            <i class="fas fa-play mr-2"></i> Start The Checklist
+                        </button>
                     </div>
-                    <div>
-                        <h3 class="font-serif text-lg font-bold text-navy-900">Pillar 4: Retirement Planning</h3>
-                        <p class="text-sm text-navy-600">Plan for a comfortable and secure retirement</p>
-                    </div>
-                </div>
-                <div class="divide-y divide-gray-100">
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I know how much I will need for retirement.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q13" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q13" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q13" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
-                    </div>
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I contribute regularly to a retirement plan or pension.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q14" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q14" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q14" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
-                    </div>
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I understand the power of compound growth.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q15" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q15" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q15" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
-                    </div>
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I have a retirement timeline and plan.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q16" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q16" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q16" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Pillar 5: Risk Management -->
-            <div class="pillar-card border-b border-gold-400/10">
-                <div class="bg-gold-400/10 p-4 flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-navy-900 rounded-xl flex items-center justify-center text-gold-400">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-serif text-lg font-bold text-navy-900">Pillar 5: Risk Management (Insurance)</h3>
-                        <p class="text-sm text-navy-600">Protect yourself, your family, and your assets</p>
-                    </div>
-                </div>
-                <div class="divide-y divide-gray-100">
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I have adequate health insurance.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q17" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q17" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q17" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
-                    </div>
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">My family would be financially secure if I died unexpectedly.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q18" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q18" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q18" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
-                    </div>
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">My income is protected if I become disabled or critically ill.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q19" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q19" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q19" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
-                    </div>
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">My business or major assets are adequately insured.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q20" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q20" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q20" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Pillar 6: Estate & Legacy -->
-            <div class="pillar-card">
-                <div class="bg-gold-400/10 p-4 flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-navy-900 rounded-xl flex items-center justify-center text-gold-400">
-                        <i class="fas fa-file-signature"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-serif text-lg font-bold text-navy-900">Pillar 6: Estate & Legacy Planning</h3>
-                        <p class="text-sm text-navy-600">Secure your legacy for future generations</p>
-                    </div>
-                </div>
-                <div class="divide-y divide-gray-100">
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I have written a valid will.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q21" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q21" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q21" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
-                    </div>
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">My beneficiaries are up to date on all my financial accounts.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q22" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q22" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q22" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
-                    </div>
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">I have a plan for transferring my wealth to my family.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q23" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q23" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q23" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
-                    </div>
-                    <div class="p-4 grid grid-cols-12 gap-2 items-center hover:bg-gray-50 transition-colors">
-                        <div class="col-span-6 md:col-span-7 text-sm text-navy-700">My loved ones know where important financial documents are kept.</div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q24" value="2" class="radio-custom yes" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q24" value="0" class="radio-custom no" onchange="calculateScore()"></div>
-                        <div class="col-span-2 text-center"><input type="radio" name="q24" value="1" class="radio-custom not-sure" onchange="calculateScore()"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Calculate Button -->
-        <div class="text-center mt-8 no-print">
-            <button onclick="calculateScore(true)" class="bg-navy-900 text-gold-400 px-10 py-4 rounded-full font-bold text-lg hover:bg-navy-800 transition-all transform hover:scale-105 shadow-lg">
-                <i class="fas fa-calculator mr-2"></i> Calculate My Score
-            </button>
-            <p class="text-sm text-navy-500 mt-3">Answer all 24 questions to see your results</p>
-        </div>
-    </section>
-
-    <!-- Results Section -->
-    <section id="results" class="py-12 max-w-4xl mx-auto px-4 hidden">
-        <div class="bg-white rounded-2xl shadow-xl border border-gold-400/20 overflow-hidden">
-
-            <!-- Score Table -->
-            <div class="bg-cream p-6 border-b border-gold-400/20">
-                <h3 class="font-serif text-lg font-bold text-navy-900 mb-4 text-center">Financial Wellness Score Guide</h3>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm">
-                        <thead>
-                            <tr class="bg-navy-900 text-white">
-                                <th class="px-4 py-3 text-left rounded-tl-lg">Score Range</th>
-                                <th class="px-4 py-3 text-left">Rating</th>
-                                <th class="px-4 py-3 text-left rounded-tr-lg">What It Means</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200">
-                            <tr class="bg-green-50 hover:bg-green-100 transition-colors">
-                                <td class="px-4 py-3 font-bold text-green-700">40 – 48</td>
-                                <td class="px-4 py-3 font-semibold text-green-700">Financially Strong</td>
-                                <td class="px-4 py-3 text-navy-600">Solid foundation. Focus on optimizing investments, tax efficiency, and legacy planning.</td>
-                            </tr>
-                            <tr class="bg-blue-50 hover:bg-blue-100 transition-colors">
-                                <td class="px-4 py-3 font-bold text-blue-700">30 – 39</td>
-                                <td class="px-4 py-3 font-semibold text-blue-700">Good Progress</td>
-                                <td class="px-4 py-3 text-navy-600">Doing well, but gaps exist. A personalized review will strengthen your plan.</td>
-                            </tr>
-                            <tr class="bg-yellow-50 hover:bg-yellow-100 transition-colors">
-                                <td class="px-4 py-3 font-bold text-yellow-700">20 – 29</td>
-                                <td class="px-4 py-3 font-semibold text-yellow-700">Needs Attention</td>
-                                <td class="px-4 py-3 text-navy-600">Several pillars need improvement. Address gaps now for long-term security.</td>
-                            </tr>
-                            <tr class="bg-red-50 hover:bg-red-100 transition-colors">
-                                <td class="px-4 py-3 font-bold text-red-700">Below 20</td>
-                                <td class="px-4 py-3 font-semibold text-red-700">High Priority</td>
-                                <td class="px-4 py-3 text-navy-600">Foundation needs immediate attention. Every pillar can be strengthened with a plan.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Immediate CTA Banner -->
-            <div class="bg-gold-400 p-4 text-center">
-                <p class="text-navy-900 font-semibold text-sm md:text-base">
-                    <i class="fas fa-phone-alt mr-2"></i>
-                    Need clarity on your score? <a href="https://calendly.com/itsaboutfinancial-freedom/30min" target="_blank" class="underline font-bold hover:text-white transition-colors">Speak to a Financial Advisor today</a> — it's free.
+                </form>
+                <p class="text-navy-500 text-sm mt-6">
+                    Prefer to talk first? <a href="https://calendly.com/itsaboutfinancial-freedom/30min" target="_blank" class="text-gold-500 font-semibold hover:underline">Book a free 30-min call</a> with a Financial Advisor.
                 </p>
             </div>
+        </section>
 
-            <!-- Score Header -->
-            <div class="bg-navy-900 p-8 text-center relative overflow-hidden">
-                <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, rgba(212,175,55,0.3) 1px, transparent 0); background-size: 40px 40px;"></div>
-                <div class="relative z-10">
-                    <p class="text-gold-400 font-semibold tracking-wider uppercase text-sm mb-4">Your Financial Wellness Score</p>
-                    <div class="flex items-center justify-center mb-4">
-                        <div class="relative w-40 h-40">
-                            <svg class="w-40 h-40 transform -rotate-90" viewBox="0 0 160 160">
-                                <circle cx="80" cy="80" r="70" fill="none" stroke="#1e293b" stroke-width="8"/>
-                                <circle id="resultCircle" cx="80" cy="80" r="70" fill="none" stroke="#d4af37" stroke-width="8" 
-                                        stroke-dasharray="439.8" stroke-dashoffset="439.8" stroke-linecap="round" class="score-ring"/>
-                            </svg>
-                            <div class="absolute inset-0 flex flex-col items-center justify-center">
-                                <span id="resultScore" class="text-5xl font-serif font-bold text-white">0</span>
-                                <span class="text-sm text-white/60">/ 48</span>
-                            </div>
+        <!-- Footer -->
+        <footer class="bg-navy-900 border-t border-white/10 py-8">
+            <div class="max-w-7xl mx-auto px-4 text-center">
+                <div class="flex items-center justify-center space-x-3 mb-4">
+                    <div class="w-8 h-8 bg-gold-400 rounded-full flex items-center justify-center text-navy-900 font-serif font-bold text-sm">K</div>
+                    <div>
+                        <span class="kifedha-italic text-xl text-white block leading-none">Kifedha</span>
+                        <span class="text-xs text-gold-400">Your Financial Wellness Partner</span>
+                    </div>
+                </div>
+                <div class="flex justify-center space-x-6 mb-4">
+                    <a href="https://www.tiktok.com/@itsaboutfinancialfreedom" target="_blank" class="text-white/60 hover:text-gold-400 transition-colors text-xl"><i class="fab fa-tiktok"></i></a>
+                    <a href="mailto:itsaboutfinancialfreedom@gmail.com" class="text-white/60 hover:text-gold-400 transition-colors text-xl"><i class="fas fa-envelope"></i></a>
+                    <a href="https://wa.me/254722943967" target="_blank" class="text-white/60 hover:text-gold-400 transition-colors text-xl"><i class="fab fa-whatsapp"></i></a>
+                </div>
+                <p class="text-white/40 text-sm"> 2026 itsaboutfinancialfreedom</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ==================== PAGE 2: CHECKLIST ==================== -->
+    <div id="page-checklist" class="page-section">
+        <!-- Checklist Nav -->
+        <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gold-400/20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-navy-900 rounded-full flex items-center justify-center text-gold-400 font-serif font-bold text-sm">K</div>
+                        <div>
+                            <span class="kifedha-italic text-lg text-navy-900 block leading-none">Kifedha</span>
+                            <span class="text-[10px] text-gold-500 font-semibold tracking-wider">Your Financial Wellness Partner</span>
                         </div>
                     </div>
-                    <h2 id="resultTitle" class="font-serif text-3xl font-bold text-white mb-2">Complete the checklist</h2>
-                    <p id="resultDescription" class="text-white/70 max-w-xl mx-auto">Answer all questions to see your personalized financial health assessment.</p>
+                    <div class="flex items-center gap-4">
+                        <div class="hidden sm:flex items-center gap-2 bg-cream px-3 py-1.5 rounded-full border border-gold-400/20">
+                            <span class="text-xs text-navy-500 font-medium">Progress</span>
+                            <span id="progressText" class="text-xs font-bold text-gold-500">0/24</span>
+                        </div>
+                        <button onclick="showResults()" id="resultsBtn"
+                            class="bg-navy-900 text-gold-400 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-navy-800 transition-all opacity-50 cursor-not-allowed" disabled>
+                            <i class="fas fa-chart-pie mr-1"></i> See Results
+                        </button>
+                    </div>
                 </div>
             </div>
+        </nav>
+        <!-- Progress Bar -->
+        <div class="fixed top-16 left-0 w-full bg-gray-200 h-1.5 z-40">
+            <div id="progressBar" class="progress-fill bg-gold-400 h-1.5" style="width: 0%"></div>
+        </div>
+        <!-- Spacer for fixed nav -->
+        <div class="h-20"></div>
 
-            <!-- Pillar Breakdown -->
-            <div class="p-8">
-                <h3 class="font-serif text-xl font-bold text-navy-900 mb-6">Pillar Breakdown</h3>
-                <div class="space-y-4" id="pillarBreakdown">
-                    <!-- Filled by JavaScript -->
+        <div class="max-w-4xl mx-auto px-4 py-8 pb-24">
+            <div class="text-center mb-10">
+                <span class="text-gold-500 font-semibold tracking-wider uppercase text-sm">Financial Gap Analysis</span>
+                <h2 class="font-serif text-3xl md:text-4xl font-bold text-navy-900 mt-2">24-Question Self-Assessment</h2>
+                <p class="text-navy-500 mt-2">Answer honestly. Your score reveals where to focus first.</p>
+            </div>
+            <div id="questionsContainer" class="space-y-8"></div>
+            <!-- Submit Section -->
+            <div class="mt-12 text-center">
+                <button onclick="showResults()" id="submitChecklist"
+                    class="bg-navy-900 text-gold-400 px-10 py-4 rounded-xl font-bold text-lg hover:bg-navy-800 transition-all transform hover:scale-105 opacity-50 cursor-not-allowed" disabled>
+                    <i class="fas fa-chart-pie mr-2"></i> Get My Financial Score
+                </button>
+                <p class="text-navy-400 text-sm mt-3" id="submitHint">Answer all 24 questions to unlock your results</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-navy-900 border-t border-white/10 py-8">
+            <div class="max-w-7xl mx-auto px-4 text-center">
+                <p class="text-white/40 text-sm"> 2026 itsaboutfinancialfreedom</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ==================== PAGE 3: RESULTS ==================== -->
+    <div id="page-results" class="page-section">
+        <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gold-400/20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-navy-900 rounded-full flex items-center justify-center text-gold-400 font-serif font-bold text-sm">K</div>
+                        <div>
+                            <span class="kifedha-italic text-lg text-navy-900 block leading-none">Kifedha</span>
+                            <span class="text-[10px] text-gold-500 font-semibold tracking-wider">Your Financial Wellness Partner</span>
+                        </div>
+                    </div>
+                    <button onclick="restartChecklist()" class="text-sm font-semibold text-navy-700 hover:text-gold-500 transition-colors">
+                        <i class="fas fa-redo mr-1"></i> Start Over
+                    </button>
                 </div>
             </div>
+        </nav>
+        <div class="h-20"></div>
 
-            <!-- Gap Analysis -->
-            <div class="p-8 bg-cream border-t border-gold-400/10">
-                <h3 class="font-serif text-xl font-bold text-navy-900 mb-4">Your Financial Gap Analysis</h3>
-                <p class="text-navy-600 mb-4">Areas where you answered <strong>No</strong> or <strong>Not Sure</strong> most often:</p>
-                <div id="gapAnalysis" class="flex flex-wrap gap-2">
-                    <!-- Filled by JavaScript -->
+        <div class="max-w-4xl mx-auto px-4 py-8 pb-24">
+            <!-- Score Card -->
+            <div class="bg-white rounded-3xl shadow-xl p-8 md:p-12 text-center mb-10 border border-gold-400/10">
+                <span class="text-gold-500 font-semibold tracking-wider uppercase text-sm">Your Financial Wellness Score</span>
+                <div class="mt-8 mb-6 relative inline-block">
+                    <svg class="w-48 h-48 transform -rotate-90" viewBox="0 0 140 140">
+                        <circle cx="70" cy="70" r="62" fill="none" stroke="#e5e7eb" stroke-width="10"/>
+                        <circle id="scoreCircle" cx="70" cy="70" r="62" fill="none" stroke="#d4af37" stroke-width="10" stroke-linecap="round"
+                            stroke-dasharray="389.56" stroke-dashoffset="389.56" class="score-circle"/>
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center flex-col">
+                        <span id="scoreNumber" class="font-serif text-6xl font-bold text-navy-900 score-pop">0</span>
+                        <span class="text-navy-400 text-sm font-medium">/ 100</span>
+                    </div>
                 </div>
+                <h3 id="scoreTitle" class="font-serif text-2xl font-bold text-navy-900 mb-2">Calculating...</h3>
+                <p id="scoreDescription" class="text-navy-500 max-w-lg mx-auto">Analyzing your responses...</p>
+            </div>
+
+            <!-- Category Breakdown -->
+            <div class="bg-white rounded-3xl shadow-lg p-8 mb-10 border border-gold-400/10">
+                <h3 class="font-serif text-2xl font-bold text-navy-900 mb-6 text-center">Breakdown by Pillar</h3>
+                <div id="categoryBreakdown" class="space-y-5"></div>
+            </div>
+
+            <!-- Action Plan -->
+            <div class="bg-navy-900 rounded-3xl shadow-xl p-8 md:p-10 text-white mb-10">
+                <h3 class="font-serif text-2xl font-bold mb-2 text-gold-400"><i class="fas fa-bullseye mr-2"></i>Your Priority Action Plan</h3>
+                <p class="text-white/60 mb-6">Focus on these areas first for the biggest impact.</p>
+                <div id="actionPlan" class="space-y-4"></div>
             </div>
 
             <!-- CTA -->
-            <div class="p-8 bg-navy-900 text-center">
-                <p class="text-white/80 text-lg mb-6 italic">"Financial freedom doesn't happen by chance — it happens by design."</p>
-                <a href="https://calendly.com/itsaboutfinancial-freedom/30min" target="_blank" class="cta-pulse inline-flex items-center space-x-2 bg-gold-400 text-navy-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-gold-500 transition-all transform hover:scale-105">
-                    <i class="fas fa-calendar-check"></i>
-                    <span>Book Your Free 30-Min Check-Up</span>
+            <div class="text-center mb-10">
+                <p class="text-navy-600 text-lg mb-4">Want personalized guidance on your gaps?</p>
+                <a href="https://calendly.com/itsaboutfinancial-freedom/30min" target="_blank"
+                    class="inline-block bg-gold-400 text-navy-900 px-8 py-4 rounded-xl font-bold text-lg hover:bg-gold-500 transition-all transform hover:scale-105">
+                    <i class="fas fa-calendar-check mr-2"></i> Book a Free 30-Min Call
                 </a>
-                <p class="text-white/50 text-sm mt-4">No obligation. Just clarity on your next steps.</p>
+            </div>
+
+            <!-- Share/Download -->
+            <div class="flex flex-wrap justify-center gap-4 mb-10">
+                <button onclick="window.print()" class="bg-white border-2 border-navy-900 text-navy-900 px-6 py-3 rounded-xl font-semibold hover:bg-navy-50 transition-all">
+                    <i class="fas fa-print mr-2"></i> Print Results
+                </button>
+                <button onclick="restartChecklist()" class="bg-white border-2 border-gold-400 text-gold-600 px-6 py-3 rounded-xl font-semibold hover:bg-gold-50 transition-all">
+                    <i class="fas fa-redo mr-2"></i> Retake Checklist
+                </button>
             </div>
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="bg-navy-900 border-t border-white/10 py-8 mt-12">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <div class="flex items-center justify-center space-x-3 mb-4">
-                <div class="w-8 h-8 bg-gold-400 rounded-full flex items-center justify-center text-navy-900 font-serif font-bold text-sm">K</div>
-                <div>
-                    <span class="kifedha-italic text-xl text-white block leading-none">Kifedha</span>
-                    <span class="text-xs text-gold-400">Your Financial Wellness Partner</span>
-                </div>
+        <footer class="bg-navy-900 border-t border-white/10 py-8">
+            <div class="max-w-7xl mx-auto px-4 text-center">
+                <p class="text-white/40 text-sm"> 2026 itsaboutfinancialfreedom</p>
             </div>
-            <div class="flex justify-center space-x-6 mb-4">
-                <a href="https://www.tiktok.com/@itsaboutfinancialfreedom" target="_blank" class="text-white/60 hover:text-gold-400 transition-colors text-xl"><i class="fab fa-tiktok"></i></a>
-                <a href="mailto:itsaboutfinancialfreedom@gmail.com" class="text-white/60 hover:text-gold-400 transition-colors text-xl"><i class="fas fa-envelope"></i></a>
-                <a href="https://wa.me/254722943967" target="_blank" class="text-white/60 hover:text-gold-400 transition-colors text-xl"><i class="fab fa-whatsapp"></i></a>
-            </div>
-            <p class="text-white/40 text-sm"> 2026 itsaboutfinancialfreedom</p>
-        </div>
-    </footer>
+        </footer>
+    </div>
 
+    <!-- ==================== JAVASCRIPT ==================== -->
     <script>
-        const pillarData = {
-            'Cash Flow Management': { questions: ['q1','q2','q3','q4'], icon: 'fa-wallet', color: 'bg-blue-500' },
-            'Debt Management': { questions: ['q5','q6','q7','q8'], icon: 'fa-credit-card', color: 'bg-red-500' },
-            'Savings & Investments': { questions: ['q9','q10','q11','q12'], icon: 'fa-piggy-bank', color: 'bg-green-500' },
-            'Retirement Planning': { questions: ['q13','q14','q15','q16'], icon: 'fa-chair', color: 'bg-purple-500' },
-            'Risk Management': { questions: ['q17','q18','q19','q20'], icon: 'fa-shield-alt', color: 'bg-orange-500' },
-            'Estate & Legacy': { questions: ['q21','q22','q23','q24'], icon: 'fa-file-signature', color: 'bg-indigo-500' }
-        };
+    // ===== GOOGLE FORM CONFIG =====
+    // INSTRUCTIONS TO GET YOUR ENTRY ID (Only step remaining!):
+    // Your Google Form URL is already configured below.
+    // You just need to find your "entry ID" for the Email field:
+    //
+    // METHOD 1 (Easiest):
+    // 1. Open your form: https://docs.google.com/forms/d/1kUnSSMKdJpBfYbMRFOUpd0-jkIlPU5X5xhz23Z8NVGQ/edit
+    // 2. Click the 3 dots (⋮) in top right → "Get pre-filled link"
+    // 3. Type a test email (e.g., test@example.com) in the Email field
+    // 4. Click "Get Link" — you'll see a URL like:
+    //    ...viewform?usp=pp_url&entry.1234567890=test@example.com
+    // 5. Copy the numbers after "entry." (e.g., 1234567890)
+    // 6. Replace YOUR_ENTRY_ID below with those numbers
+    //
+    // METHOD 2:
+    // 1. Open your form preview: https://docs.google.com/forms/d/1kUnSSMKdJpBfYbMRFOUpd0-jkIlPU5X5xhz23Z8NVGQ/preview
+    // 2. Right-click → "View Page Source"
+    // 3. Search (Ctrl+F) for "entry." — you'll see entry.1234567890
+    // 4. Copy those numbers and replace YOUR_ENTRY_ID below
 
-        const scoreRanges = [
-            { min: 40, max: 48, title: 'Financially Strong', desc: 'You have a solid financial foundation. Focus on optimizing your investments, tax efficiency, and legacy planning.', color: '#22c55e' },
-            { min: 30, max: 39, title: 'Good Progress', desc: 'You\'re doing well, but there are gaps that could become expensive if left unattended. A personalized financial review will help strengthen your plan.', color: '#3b82f6' },
-            { min: 20, max: 29, title: 'Needs Attention', desc: 'Several important pillars require improvement. Addressing these gaps now can significantly improve your long-term financial security.', color: '#f59e0b' },
-            { min: 0, max: 19, title: 'High Priority', desc: 'Your financial foundation needs immediate attention. The good news is that with a structured plan, every pillar can be strengthened over time.', color: '#ef4444' }
-        ];
+    const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/1kUnSSMKdJpBfYbMRFOUpd0-jkIlPU5X5xhz23Z8NVGQ/formResponse';
+    const GOOGLE_FORM_ENTRY_ID = 'entry.YOUR_ENTRY_ID';
 
-        function calculateScore(scrollToResults = false) {
-            let totalScore = 0;
-            let answeredCount = 0;
-            const pillarScores = {};
-            const gapAreas = [];
+    // ===== DATA =====
+    const categories = [
+        { id: 'cashflow', name: 'Cash Flow Management', icon: 'fa-wallet', color: '#10b981' },
+        { id: 'debt', name: 'Debt Management', icon: 'fa-credit-card', color: '#f59e0b' },
+        { id: 'savings', name: 'Savings & Investments', icon: 'fa-piggy-bank', color: '#3b82f6' },
+        { id: 'retirement', name: 'Retirement Planning', icon: 'fa-chair', color: '#8b5cf6' },
+        { id: 'risk', name: 'Risk Management', icon: 'fa-shield-alt', color: '#ef4444' },
+        { id: 'estate', name: 'Estate & Legacy', icon: 'fa-file-signature', color: '#06b6d4' }
+    ];
 
-            for (const [pillarName, data] of Object.entries(pillarData)) {
-                let pillarScore = 0;
-                let pillarNoCount = 0;
-                let pillarNotSureCount = 0;
+    const questions = [
+        { id: 1, text: "Do you track your monthly income and expenses consistently?", category: 'cashflow' },
+        { id: 2, text: "Do you have a written monthly budget that you actually follow?", category: 'cashflow' },
+        { id: 3, text: "Do you know your exact net worth (assets minus liabilities)?", category: 'cashflow' },
+        { id: 4, text: "Do you review your bank and credit card statements at least monthly?", category: 'cashflow' },
+        { id: 5, text: "Do you have a clear plan to pay off all your debts?", category: 'debt' },
+        { id: 6, text: "Are you making more than the minimum payments on your debts?", category: 'debt' },
+        { id: 7, text: "Do you know the total amount of debt you currently owe?", category: 'debt' },
+        { id: 8, text: "Have you consolidated or refinanced high-interest debt to lower rates?", category: 'debt' },
+        { id: 9, text: "Do you have an emergency fund covering at least 3-6 months of expenses?", category: 'savings' },
+        { id: 10, text: "Are you consistently saving at least 10-20% of your income?", category: 'savings' },
+        { id: 11, text: "Do you have investments outside of your retirement accounts?", category: 'savings' },
+        { id: 12, text: "Do you understand the fees and performance of your investments?", category: 'savings' },
+        { id: 13, text: "Do you know how much money you'll need to retire comfortably?", category: 'retirement' },
+        { id: 14, text: "Are you contributing to a retirement account (pension, 401k, IRA, etc.)?", category: 'retirement' },
+        { id: 15, text: "Have you calculated if you're on track to hit your retirement number?", category: 'retirement' },
+        { id: 16, text: "Do you have a target retirement age and a plan to reach it?", category: 'retirement' },
+        { id: 17, text: "Do you have health insurance that adequately covers your needs?", category: 'risk' },
+        { id: 18, text: "Do you have life insurance if others depend on your income?", category: 'risk' },
+        { id: 19, text: "Do you have disability or income protection insurance?", category: 'risk' },
+        { id: 20, text: "Do you have property insurance (home, car, valuables) with adequate coverage?", category: 'risk' },
+        { id: 21, text: "Do you have a valid will or estate plan in place?", category: 'estate' },
+        { id: 22, text: "Have you named beneficiaries on all your financial accounts?", category: 'estate' },
+        { id: 23, text: "Do you have a trusted person who knows where all your financial documents are?", category: 'estate' },
+        { id: 24, text: "Have you discussed your estate wishes with your family or heirs?", category: 'estate' }
+    ];
 
-                for (const qName of data.questions) {
-                    const selected = document.querySelector(`input[name="${qName}"]:checked`);
-                    if (selected) {
-                        const val = parseInt(selected.value);
-                        totalScore += val;
-                        pillarScore += val;
-                        answeredCount++;
-                        if (val === 0) pillarNoCount++;
-                        if (val === 1) pillarNotSureCount++;
-                    }
-                }
+    // ===== STATE =====
+    let answers = {};
+    let userEmail = '';
 
-                pillarScores[pillarName] = { score: pillarScore, max: data.questions.length * 2, noCount: pillarNoCount, notSureCount: pillarNotSureCount };
+    // ===== RENDER QUESTIONS =====
+    function renderQuestions() {
+        const container = document.getElementById('questionsContainer');
+        let currentCat = '';
+        let html = '';
 
-                if (pillarNoCount + pillarNotSureCount >= 2) {
-                    gapAreas.push(pillarName);
-                }
-            }
-
-            // Update sticky score
-            const stickyScore = document.getElementById('stickyScore');
-            const stickyScoreText = document.getElementById('stickyScoreText');
-            const stickyScoreLabel = document.getElementById('stickyScoreLabel');
-            const stickyCta = document.getElementById('stickyCta');
-            const scoreCircle = document.getElementById('scoreCircle');
-            const resultCircle = document.getElementById('resultCircle');
-
-            if (answeredCount > 0) {
-                stickyScore.classList.remove('-translate-y-full');
-                stickyScoreText.textContent = totalScore;
-
-                const circumference = 125.6;
-                const offset = circumference - (totalScore / 48) * circumference;
-                if (scoreCircle) scoreCircle.style.strokeDashoffset = offset;
-
-                if (answeredCount >= 24) {
-                    stickyScoreLabel.textContent = 'View your full results below';
-                    stickyCta.classList.remove('hidden');
-
-                    // Show results section
-                    const resultsSection = document.getElementById('results');
-                    resultsSection.classList.remove('hidden');
-
-                    // Update result circle
-                    const resultCircumference = 439.8;
-                    const resultOffset = resultCircumference - (totalScore / 48) * resultCircumference;
-                    if (resultCircle) resultCircle.style.strokeDashoffset = resultOffset;
-
-                    // Update score text
-                    document.getElementById('resultScore').textContent = totalScore;
-
-                    // Find score range
-                    const range = scoreRanges.find(r => totalScore >= r.min && totalScore <= r.max);
-                    if (range) {
-                        document.getElementById('resultTitle').textContent = range.title;
-                        document.getElementById('resultTitle').style.color = range.color;
-                        document.getElementById('resultDescription').textContent = range.desc;
-                        if (resultCircle) resultCircle.style.stroke = range.color;
-                    }
-
-                    // Build pillar breakdown
-                    const breakdownHtml = Object.entries(pillarScores).map(([name, data]) => {
-                        const percentage = (data.score / data.max) * 100;
-                        const barColor = percentage >= 75 ? 'bg-green-500' : percentage >= 50 ? 'bg-blue-500' : percentage >= 25 ? 'bg-yellow-500' : 'bg-red-500';
-                        return `
-                            <div class="flex items-center space-x-4">
-                                <div class="w-32 text-sm font-medium text-navy-700">${name}</div>
-                                <div class="flex-1 bg-gray-200 rounded-full h-3">
-                                    <div class="${barColor} h-3 rounded-full transition-all duration-1000" style="width: ${percentage}%"></div>
-                                </div>
-                                <div class="w-16 text-right text-sm font-bold text-navy-900">${data.score}/${data.max}</div>
+        questions.forEach((q, idx) => {
+            if (q.category !== currentCat) {
+                currentCat = q.category;
+                const cat = categories.find(c => c.id === currentCat);
+                if (idx > 0) html += '</div></div>';
+                html += `
+                    <div class="bg-white rounded-2xl p-6 md:p-8 border border-gold-400/10 shadow-sm">
+                        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center text-white text-lg" style="background-color: ${cat.color}">
+                                <i class="fas ${cat.icon}"></i>
                             </div>
-                        `;
-                    }).join('');
-                    document.getElementById('pillarBreakdown').innerHTML = breakdownHtml;
-
-                    // Build gap analysis
-                    const gapHtml = gapAreas.length > 0 
-                        ? gapAreas.map(area => `<span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-medium border border-red-200">${area}</span>`).join('')
-                        : '<span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-200">No major gaps detected!</span>';
-                    document.getElementById('gapAnalysis').innerHTML = gapHtml;
-
-                    if (scrollToResults) {
-                        document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
-                    }
-                } else {
-                    stickyScoreLabel.textContent = `${answeredCount}/24 answered`;
-                    stickyCta.classList.add('hidden');
-                }
+                            <h3 class="font-serif text-xl font-bold text-navy-900">${cat.name}</h3>
+                        </div>
+                        <div class="space-y-0">
+                `;
             }
+
+            html += `
+                <div class="question-row flex flex-col md:flex-row md:items-center md:justify-between gap-4 py-5 border-b border-gray-50 last:border-0" data-qid="${q.id}">
+                    <div class="flex-1 pr-4">
+                        <p class="text-navy-700 font-medium text-base leading-relaxed">
+                            <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-navy-100 text-navy-700 text-xs font-bold mr-2">${q.id}</span>
+                            ${q.text}
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <button onclick="setAnswer(${q.id}, 'not-sure')" class="answer-btn" data-value="not-sure" id="btn-${q.id}-not-sure">
+                            <div class="answer-circle"><div class="answer-dot"></div></div>
+                            <span class="answer-label">Not Sure</span>
+                        </button>
+                        <button onclick="setAnswer(${q.id}, 'no')" class="answer-btn" data-value="no" id="btn-${q.id}-no">
+                            <div class="answer-circle"><div class="answer-dot"></div></div>
+                            <span class="answer-label">No</span>
+                        </button>
+                        <button onclick="setAnswer(${q.id}, 'yes')" class="answer-btn" data-value="yes" id="btn-${q.id}-yes">
+                            <div class="answer-circle"><div class="answer-dot"></div></div>
+                            <span class="answer-label">Yes</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+
+        html += '</div></div>';
+        container.innerHTML = html;
+    }
+
+    // ===== SET ANSWER =====
+    function setAnswer(qid, value) {
+        answers[qid] = value;
+
+        // Reset all buttons for this question
+        ['not-sure', 'no', 'yes'].forEach(v => {
+            const btn = document.getElementById(`btn-${qid}-${v}`);
+            btn.classList.remove('selected');
+        });
+
+        // Select clicked button
+        document.getElementById(`btn-${qid}-${value}`).classList.add('selected');
+
+        updateProgress();
+    }
+
+    // ===== UPDATE PROGRESS =====
+    function updateProgress() {
+        const answered = Object.keys(answers).length;
+        const pct = (answered / 24) * 100;
+
+        document.getElementById('progressBar').style.width = pct + '%';
+        document.getElementById('progressText').textContent = answered + '/24';
+
+        const resultsBtn = document.getElementById('resultsBtn');
+        const submitBtn = document.getElementById('submitChecklist');
+        const submitHint = document.getElementById('submitHint');
+
+        if (answered === 24) {
+            resultsBtn.disabled = false;
+            resultsBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            submitHint.innerHTML = '<span class="text-green-600 font-semibold"><i class="fas fa-check-circle mr-1"></i>All questions answered! Click to see your results.</span>';
+        }
+    }
+
+    // ===== SUBMIT TO GOOGLE FORM =====
+    function submitToGoogleForm(email) {
+        // Check if user has configured their Google Form
+        if (GOOGLE_FORM_URL.includes('YOUR_FORM_ID')) {
+            console.warn('Google Form not configured yet. Email saved to localStorage only:', email);
+            // Still save to localStorage as backup
+            const stored = JSON.parse(localStorage.getItem('kifedha_emails') || '[]');
+            if (!stored.includes(email)) {
+                stored.push(email);
+                localStorage.setItem('kifedha_emails', JSON.stringify(stored));
+            }
+            return;
         }
 
-        // Show sticky score on scroll
-        window.addEventListener('scroll', () => {
-            const stickyScore = document.getElementById('stickyScore');
-            if (window.scrollY > 400) {
-                stickyScore.classList.remove('-translate-y-full');
-            } else {
-                stickyScore.classList.add('-translate-y-full');
-            }
+        // Create a form and submit it to Google Forms
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = GOOGLE_FORM_URL;
+        form.target = 'googleFormTarget';
+
+        const entryField = document.createElement('input');
+        entryField.type = 'hidden';
+        entryField.name = GOOGLE_FORM_ENTRY_ID;
+        entryField.value = email;
+        form.appendChild(entryField);
+
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
+
+        // Also save to localStorage as backup
+        const stored = JSON.parse(localStorage.getItem('kifedha_emails') || '[]');
+        if (!stored.includes(email)) {
+            stored.push(email);
+            localStorage.setItem('kifedha_emails', JSON.stringify(stored));
+        }
+    }
+
+    // ===== EMAIL SUBMIT =====
+    function handleEmailSubmit(e) {
+        e.preventDefault();
+        const email = e.target.querySelector('input[type="email"]').value;
+        const btn = e.target.querySelector('button[type="submit"]');
+
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Preparing Checklist...';
+
+        userEmail = email;
+
+        // Submit email to Google Form
+        submitToGoogleForm(email);
+
+        setTimeout(() => {
+            document.getElementById('page-landing').classList.remove('active');
+            document.getElementById('page-checklist').classList.add('active');
+            window.scrollTo(0, 0);
+            renderQuestions();
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-play mr-2"></i> Start The Checklist';
+            e.target.reset();
+        }, 1200);
+    }
+
+    // ===== SHOW RESULTS =====
+    function showResults() {
+        if (Object.keys(answers).length < 24) return;
+
+        document.getElementById('page-checklist').classList.remove('active');
+        document.getElementById('page-results').classList.add('active');
+        window.scrollTo(0, 0);
+
+        // Calculate scores
+        const catScores = {};
+        const catTotals = {};
+        categories.forEach(c => { catScores[c.id] = 0; catTotals[c.id] = 0; });
+
+        let totalScore = 0;
+        questions.forEach(q => {
+            const val = answers[q.id];
+            catTotals[q.category]++;
+            if (val === 'yes') { catScores[q.category] += 4; totalScore += 4; }
+            else if (val === 'not-sure') { catScores[q.category] += 2; totalScore += 2; }
         });
+
+        const maxScore = 24 * 4;
+        const percentage = Math.round((totalScore / maxScore) * 100);
+
+        // Animate score circle
+        setTimeout(() => {
+            const circle = document.getElementById('scoreCircle');
+            const circumference = 389.56;
+            const offset = circumference - (percentage / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+        }, 300);
+
+        // Animate number
+        let current = 0;
+        const interval = setInterval(() => {
+            current++;
+            document.getElementById('scoreNumber').textContent = current;
+            if (current >= percentage) clearInterval(interval);
+        }, 2000 / Math.max(percentage, 1));
+
+        // Score title & description
+        let title, desc;
+        if (percentage >= 80) {
+            title = 'Excellent Financial Health';
+            desc = 'You have a strong financial foundation. Fine-tune a few areas to reach complete financial freedom.';
+        } else if (percentage >= 60) {
+            title = 'Good, With Some Gaps';
+            desc = 'You are doing well in several areas. Focus on the pillars below to level up your financial wellness.';
+        } else if (percentage >= 40) {
+            title = 'Moderate — Room to Grow';
+            desc = 'You have some systems in place, but there are significant gaps that need attention. Start with the priority actions below.';
+        } else {
+            title = 'Needs Attention';
+            desc = 'Your finances need a structured plan. The good news: every gap you close creates massive impact. Start with the priorities below.';
+        }
+
+        document.getElementById('scoreTitle').textContent = title;
+        document.getElementById('scoreDescription').textContent = desc;
+
+        // Category breakdown
+        const breakdownHTML = categories.map(cat => {
+            const score = catScores[cat.id];
+            const max = catTotals[cat.id] * 4;
+            const pct = Math.round((score / max) * 100);
+            return `
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center text-white shrink-0" style="background-color: ${cat.color}">
+                        <i class="fas ${cat.icon}"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between mb-1">
+                            <span class="font-semibold text-navy-700 text-sm">${cat.name}</span>
+                            <span class="font-bold text-navy-900 text-sm">${pct}%</span>
+                        </div>
+                        <div class="w-full bg-gray-100 rounded-full h-2.5">
+                            <div class="cat-bar h-2.5 rounded-full" style="width: 0%; background-color: ${cat.color}" data-target="${pct}"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        document.getElementById('categoryBreakdown').innerHTML = breakdownHTML;
+
+        // Animate category bars
+        setTimeout(() => {
+            document.querySelectorAll('.cat-bar').forEach(bar => {
+                bar.style.width = bar.dataset.target + '%';
+            });
+        }, 500);
+
+        // Action plan — sort categories by score ascending (worst first)
+        const sortedCats = [...categories].sort((a, b) => (catScores[a.id] / (catTotals[a.id] * 4)) - (catScores[b.id] / (catTotals[b.id] * 4)));
+        const worstCats = sortedCats.slice(0, 3);
+
+        const actions = {
+            cashflow: ['Set up a budgeting app or spreadsheet', 'Schedule a weekly money review', 'Calculate your net worth today'],
+            debt: ['List all debts with interest rates', 'Call creditors to negotiate lower rates', 'Set up automatic extra payments'],
+            savings: ['Open a high-yield savings account', 'Set up automatic monthly transfers', 'Review and rebalance investments'],
+            retirement: ['Use a retirement calculator', 'Increase your contribution by 1%', 'Meet with a retirement advisor'],
+            risk: ['Review all insurance policies', 'Get quotes for missing coverage', 'Update beneficiaries'],
+            estate: ['Draft a will (use online or lawyer)', 'List all accounts and passwords', 'Have the conversation with family']
+        };
+
+        const actionHTML = worstCats.map((cat, i) => {
+            const pct = Math.round((catScores[cat.id] / (catTotals[cat.id] * 4)) * 100);
+            return `
+                <div class="bg-white/10 rounded-xl p-5 border border-white/10">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-sm font-bold" style="background-color: ${cat.color}">${i + 1}</div>
+                        <h4 class="font-bold text-white text-lg">${cat.name} <span class="text-white/50 text-sm font-normal">(${pct}%)</span></h4>
+                    </div>
+                    <ul class="space-y-2">
+                        ${actions[cat.id].map(a => `<li class="text-white/70 text-sm flex items-start gap-2"><i class="fas fa-check text-gold-400 mt-1 text-xs"></i>${a}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }).join('');
+        document.getElementById('actionPlan').innerHTML = actionHTML;
+    }
+
+    // ===== RESTART =====
+    function restartChecklist() {
+        answers = {};
+        document.getElementById('page-results').classList.remove('active');
+        document.getElementById('page-checklist').classList.add('active');
+        window.scrollTo(0, 0);
+        renderQuestions();
+        updateProgress();
+    }
     </script>
 </body>
 </html>
