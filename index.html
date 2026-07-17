@@ -905,60 +905,103 @@
     }
 
     // ===== DOWNLOAD RESULTS AS PDF =====
-    function downloadResultsPDF() {
+    // Renders each card as its own image and only breaks pages BETWEEN cards
+    // (or between individual rows, as a fallback for an oversized card) so a
+    // page break never lands in the middle of a sentence or a stat row.
+    async function downloadResultsPDF() {
         const btn = document.getElementById('downloadPdfBtn');
         const originalBtnHTML = btn.innerHTML;
         btn.disabled = true;
         btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Preparing PDF...';
 
-        const element = document.getElementById('pdfResultsContent');
-        const scoreEl = document.getElementById('scoreNumber');
-        const scoreText = scoreEl ? scoreEl.textContent.trim() : 'results';
+        try {
+            const root = document.getElementById('pdfResultsContent');
+            const scoreEl = document.getElementById('scoreNumber');
+            const scoreText = scoreEl ? scoreEl.textContent.trim() : 'results';
 
-        // html2canvas-pro (not classic html2canvas/html2pdf.js) is required here because
-        // Tailwind's CDN build outputs colors as oklch(), which classic html2canvas can't
-        // parse -- that mismatch is what was producing the blank PDF.
-        html2canvas(element, {
-            scale: 2,
-            useCORS: true,
-            backgroundColor: '#faf9f6'
-        }).then(function (canvas) {
-            const imgData = canvas.toDataURL('image/jpeg', 0.98);
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF('p', 'in', 'letter');
-
             const pageWidth = pdf.internal.pageSize.getWidth();
             const pageHeight = pdf.internal.pageSize.getHeight();
             const margin = 0.4;
             const usableWidth = pageWidth - margin * 2;
             const usableHeight = pageHeight - margin * 2;
+            const gap = 0.15;
 
-            const imgWidth = usableWidth;
-            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            let cursorY = margin;
 
-            let heightLeft = imgHeight;
-            let position = margin;
+            // Capture a single element with html2canvas-pro (supports Tailwind's oklch colors)
+            // and place it on the current PDF page, adding a new page first if it doesn't fit.
+            async function placeElement(el) {
+                const canvas = await html2canvas(el, { scale: 2, useCORS: true, backgroundColor: '#faf9f6' });
+                const imgWidth = usableWidth;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                const imgData = canvas.toDataURL('image/jpeg', 0.98);
 
-            pdf.addImage(imgData, 'JPEG', margin, position, imgWidth, imgHeight);
-            heightLeft -= usableHeight;
+                const fitsHere = imgHeight <= (pageHeight - margin - cursorY);
+                const isFreshPage = cursorY <= margin + 0.001;
 
-            // Add extra pages if the results are taller than one page
-            while (heightLeft > 0) {
-                position = margin - (imgHeight - heightLeft);
-                pdf.addPage();
-                pdf.addImage(imgData, 'JPEG', margin, position, imgWidth, imgHeight);
-                heightLeft -= usableHeight;
+                if (!fitsHere && !isFreshPage) {
+                    pdf.addPage();
+                    cursorY = margin;
+                }
+
+                pdf.addImage(imgData, 'JPEG', margin, cursorY, imgWidth, imgHeight);
+                cursorY += imgHeight + gap;
+                return imgHeight <= usableHeight; // false = didn't fit even on an empty page
+            }
+
+            // Builds a clone of a card that keeps its full wrapper (background, padding,
+            // border-radius, heading) but swaps the inner list to only the given items —
+            // used only as a fallback when a card is too tall to fit on one page.
+            function buildRowChunk(section, listSelector, items) {
+                const clone = section.cloneNode(true);
+                const list = clone.querySelector(listSelector);
+                list.innerHTML = '';
+                items.forEach(item => list.appendChild(item.cloneNode(true)));
+                clone.style.position = 'fixed';
+                clone.style.left = '-10000px';
+                clone.style.top = '0';
+                clone.style.width = section.offsetWidth + 'px';
+                clone.style.margin = '0';
+                document.body.appendChild(clone);
+                return clone;
+            }
+
+            // Pre-check each section's natural height against a full empty page. If any
+            // section is too tall on its own, split it into a header chunk + one chunk per
+            // row so no row/sentence gets cut; otherwise render the whole card as one image.
+            for (const section of Array.from(root.children)) {
+                const listContainer = section.querySelector('#categoryBreakdown, #actionPlan');
+                const probe = await html2canvas(section, { scale: 1, useCORS: true, backgroundColor: '#faf9f6' });
+                const probeHeight = (probe.height * usableWidth) / probe.width;
+
+                if (probeHeight <= usableHeight || !listContainer || listContainer.children.length <= 1) {
+                    await placeElement(section);
+                    continue;
+                }
+
+                // Oversized card: render header (with empty list) then one chunk per row.
+                const headerChunk = buildRowChunk(section, '#categoryBreakdown, #actionPlan', []);
+                await placeElement(headerChunk);
+                document.body.removeChild(headerChunk);
+
+                for (const item of Array.from(listContainer.children)) {
+                    const rowChunk = buildRowChunk(section, '#categoryBreakdown, #actionPlan', [item]);
+                    await placeElement(rowChunk);
+                    document.body.removeChild(rowChunk);
+                }
             }
 
             pdf.save(`Mfedha-Financial-Gap-Analysis-Score-${scoreText}.pdf`);
             btn.disabled = false;
             btn.innerHTML = originalBtnHTML;
-        }).catch(function (err) {
+        } catch (err) {
             console.error('PDF generation failed:', err);
             btn.disabled = false;
             btn.innerHTML = originalBtnHTML;
             alert('Something went wrong generating your PDF. Please try again.');
-        });
+        }
     }
 
     // ===== RESTART =====
