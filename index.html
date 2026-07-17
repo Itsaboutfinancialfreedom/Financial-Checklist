@@ -211,19 +211,43 @@
                     </p>
                     <!-- Email + Phone Form -->
                     <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-white/20 max-w-xl mx-auto">
-                        <form id="leadForm" onsubmit="handleEmailSubmit(event)">
+                        <form id="leadForm" onsubmit="handleEmailSubmit(event)" novalidate>
                             <div class="flex flex-col gap-3">
                                 <input type="email" id="emailInput" placeholder="Enter your email address" required
                                     class="form-input w-full px-5 py-4 rounded-xl bg-white text-navy-900 placeholder-gray-400 border-2 border-transparent text-base transition-all">
-                                <input type="tel" name="phone" placeholder="Phone number (optional)" 
-                                    class="form-input w-full px-5 py-4 rounded-xl bg-white text-navy-900 placeholder-gray-400 border-2 border-transparent text-base transition-all">
+                                <div class="flex gap-2">
+                                    <select name="countryCode" aria-label="Country code" class="country-code-select form-input px-3 py-4 rounded-xl bg-white text-navy-900 border-2 border-transparent text-base transition-all w-[120px] flex-shrink-0">
+                                        <option value="+254" selected>🇰🇪 +254</option>
+                                        <option value="+256">🇺🇬 +256</option>
+                                        <option value="+255">🇹🇿 +255</option>
+                                        <option value="+250">🇷🇼 +250</option>
+                                        <option value="+257">🇧🇮 +257</option>
+                                        <option value="+211">🇸🇸 +211</option>
+                                        <option value="+251">🇪🇹 +251</option>
+                                        <option value="+234">🇳🇬 +234</option>
+                                        <option value="+233">🇬🇭 +233</option>
+                                        <option value="+27">🇿🇦 +27</option>
+                                        <option value="+1">🇺🇸 +1</option>
+                                        <option value="+44">🇬🇧 +44</option>
+                                        <option value="+971">🇦🇪 +971</option>
+                                        <option value="+91">🇮🇳 +91</option>
+                                    </select>
+                                    <input type="tel" name="phone" placeholder="7XX XXX XXX" required
+                                        class="phone-number-input form-input w-full px-5 py-4 rounded-xl bg-white text-navy-900 placeholder-gray-400 border-2 border-transparent text-base transition-all">
+                                </div>
+                                <p class="phone-error hidden text-red-300 text-xs text-left -mt-2"><i class="fas fa-circle-exclamation mr-1"></i>Please enter a valid phone number for the selected country.</p>
+                                <label class="flex items-start gap-2 text-left cursor-pointer">
+                                    <input type="checkbox" name="consent" required class="consent-checkbox mt-1 w-4 h-4 flex-shrink-0 accent-gold-400">
+                                    <span class="text-white/70 text-xs">I agree to the <span class="cursor-pointer underline decoration-white/40 hover:decoration-white text-white font-semibold" onclick="showPrivacyModal(event)">Privacy Policy</span> and consent to being contacted about my results.</span>
+                                </label>
+                                <p class="consent-error hidden text-red-300 text-xs text-left"><i class="fas fa-circle-exclamation mr-1"></i>Please accept the Privacy Policy to continue.</p>
                                 <button type="submit" id="submitBtn"
                                     class="pulse-glow bg-gold-400 text-navy-900 px-8 py-4 rounded-xl font-bold text-base hover:bg-gold-500 transition-all transform hover:scale-105 whitespace-nowrap">
                                     <i class="fas fa-play mr-2"></i> Start The Checklist
                                 </button>
                             </div>
                             <p class="text-white/60 text-xs mt-3 text-left">
-                                <i class="fas fa-lock mr-1"></i> <span class="cursor-pointer hover:text-white underline decoration-white/30 hover:decoration-white transition-all" onclick="showPrivacyModal(event)">We respect your privacy. No spam, ever. Unsubscribe anytime.</span>
+                                <i class="fas fa-lock mr-1"></i> We respect your privacy. No spam, ever. Unsubscribe anytime.
                             </p>
                         </form>
                     </div>
@@ -315,12 +339,36 @@
             <div class="max-w-2xl mx-auto px-4 text-center">
                 <h2 class="font-serif text-3xl md:text-4xl font-bold text-navy-900 mb-4">Ready to Find Your Financial Gaps?</h2>
                 <p class="text-navy-600 text-lg mb-8">Join thousands who have taken control of their finances. It takes just 5 minutes.</p>
-                <form onsubmit="handleEmailSubmit(event)" class="max-w-md mx-auto">
+                <form onsubmit="handleEmailSubmit(event)" class="max-w-md mx-auto" novalidate>
                     <div class="flex flex-col gap-3">
                         <input type="email" placeholder="Enter your email address" required
                             class="form-input w-full px-5 py-4 rounded-xl bg-white text-navy-900 placeholder-gray-400 border-2 border-gray-200 text-base transition-all">
-                        <input type="tel" name="phone" placeholder="Phone number (optional)" 
-                            class="form-input w-full px-5 py-4 rounded-xl bg-white text-navy-900 placeholder-gray-400 border-2 border-gray-200 text-base transition-all">
+                        <div class="flex gap-2">
+                            <select name="countryCode" aria-label="Country code" class="country-code-select form-input px-3 py-4 rounded-xl bg-white text-navy-900 border-2 border-gray-200 text-base transition-all w-[120px] flex-shrink-0">
+                                <option value="+254" selected>🇰🇪 +254</option>
+                                <option value="+256">🇺🇬 +256</option>
+                                <option value="+255">🇹🇿 +255</option>
+                                <option value="+250">🇷🇼 +250</option>
+                                <option value="+257">🇧🇮 +257</option>
+                                <option value="+211">🇸🇸 +211</option>
+                                <option value="+251">🇪🇹 +251</option>
+                                <option value="+234">🇳🇬 +234</option>
+                                <option value="+233">🇬🇭 +233</option>
+                                <option value="+27">🇿🇦 +27</option>
+                                <option value="+1">🇺🇸 +1</option>
+                                <option value="+44">🇬🇧 +44</option>
+                                <option value="+971">🇦🇪 +971</option>
+                                <option value="+91">🇮🇳 +91</option>
+                            </select>
+                            <input type="tel" name="phone" placeholder="7XX XXX XXX" required
+                                class="phone-number-input form-input w-full px-5 py-4 rounded-xl bg-white text-navy-900 placeholder-gray-400 border-2 border-gray-200 text-base transition-all">
+                        </div>
+                        <p class="phone-error hidden text-red-600 text-xs text-left -mt-2"><i class="fas fa-circle-exclamation mr-1"></i>Please enter a valid phone number for the selected country.</p>
+                        <label class="flex items-start gap-2 text-left cursor-pointer">
+                            <input type="checkbox" name="consent" required class="consent-checkbox mt-1 w-4 h-4 flex-shrink-0 accent-navy-900">
+                            <span class="text-navy-600 text-xs">I agree to the <span class="cursor-pointer underline decoration-navy-300 hover:decoration-navy-900 text-navy-900 font-semibold" onclick="showPrivacyModal(event)">Privacy Policy</span> and consent to being contacted about my results.</span>
+                        </label>
+                        <p class="consent-error hidden text-red-600 text-xs text-left"><i class="fas fa-circle-exclamation mr-1"></i>Please accept the Privacy Policy to continue.</p>
                         <button type="submit"
                             class="bg-navy-900 text-gold-400 px-8 py-4 rounded-xl font-bold text-base hover:bg-navy-800 transition-all transform hover:scale-105 whitespace-nowrap">
                             <i class="fas fa-play mr-2"></i> Start The Checklist
@@ -676,9 +724,45 @@
     function handleEmailSubmit(e) {
         e.preventDefault();
         const form = e.target;
-        const email = form.querySelector('input[type="email"]').value;
-        const phoneInput = form.querySelector('input[name="phone"]');
-        const phone = phoneInput ? phoneInput.value : '';
+        const email = form.querySelector('input[type="email"]').value.trim();
+
+        const consentInput = form.querySelector('.consent-checkbox');
+        const consentError = form.querySelector('.consent-error');
+        const countryCodeSelect = form.querySelector('.country-code-select');
+        const phoneInput = form.querySelector('.phone-number-input');
+        const phoneError = form.querySelector('.phone-error');
+
+        // Reset previous error states
+        if (consentError) consentError.classList.add('hidden');
+        if (phoneError) phoneError.classList.add('hidden');
+        if (phoneInput) phoneInput.classList.remove('border-red-400');
+
+        // Consent is mandatory — refuse to proceed without it
+        if (!consentInput || !consentInput.checked) {
+            if (consentError) consentError.classList.remove('hidden');
+            if (consentInput) consentInput.focus();
+            return;
+        }
+
+        // Phone number is mandatory and must be a plausible number for the selected country
+        const countryCode = countryCodeSelect ? countryCodeSelect.value : '';
+        const rawPhone = phoneInput ? phoneInput.value.trim() : '';
+        const digitsOnly = rawPhone.replace(/\D/g, '');
+
+        // Basic sanity check: 7-12 digits after the country code covers virtually all
+        // real mobile numbers while rejecting obviously fake/incomplete entries.
+        const isValidPhone = digitsOnly.length >= 7 && digitsOnly.length <= 12 && !/^0+$/.test(digitsOnly);
+
+        if (!isValidPhone) {
+            if (phoneError) phoneError.classList.remove('hidden');
+            if (phoneInput) {
+                phoneInput.classList.add('border-red-400');
+                phoneInput.focus();
+            }
+            return;
+        }
+
+        const fullPhone = countryCode + digitsOnly;
         const btn = form.querySelector('button[type="submit"]');
 
         btn.disabled = true;
@@ -687,7 +771,7 @@
         userEmail = email;
 
         // Submit email + phone to Google Form
-        submitToGoogleForm(email, phone);
+        submitToGoogleForm(email, fullPhone);
 
         setTimeout(() => {
             document.getElementById('page-landing').classList.remove('active');
@@ -797,7 +881,7 @@
         const actions = {
             cashflow: ['Set up a budgeting app or spreadsheet', 'Schedule a weekly money review', 'Calculate your net worth today'],
             debt: ['List all debts with interest rates', 'Call creditors to negotiate lower rates', 'Set up automatic extra payments'],
-            savings: ['Open a high-yield savings account', 'Set up automatic monthly transfers', 'Review and rebalance investments'],
+            savings: ['Build a 3-6 month emergency fund', 'Open a high-yield savings account', 'Set up automatic monthly transfers', 'Review and rebalance investments'],
             retirement: ['Use a retirement calculator', 'Increase your contribution by 1%', 'Meet with a retirement advisor'],
             risk: ['Review all insurance policies', 'Get quotes for missing coverage', 'Update beneficiaries'],
             estate: ['Draft a will (use online or lawyer)', 'List all accounts and passwords', 'Have the conversation with family']
