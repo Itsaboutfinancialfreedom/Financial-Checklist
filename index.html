@@ -10,8 +10,9 @@
     <!-- EmailJS SDK (uncomment after setup) -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script> -->
     <!-- <script>emailjs.init('YOUR_EMAILJS_PUBLIC_KEY');</script> -->
-    <!-- PDF Generation Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- PDF Generation Libraries (html2canvas-pro supports Tailwind's oklch() colors; classic html2canvas/html2pdf.js do not, which caused blank PDFs) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas-pro@2.0.4/dist/html2canvas-pro.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -830,19 +831,45 @@
         const scoreEl = document.getElementById('scoreNumber');
         const scoreText = scoreEl ? scoreEl.textContent.trim() : 'results';
 
-        const opt = {
-            margin: 0.4,
-            filename: `Mfedha-Financial-Gap-Analysis-Score-${scoreText}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, backgroundColor: '#faf9f6' },
-            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-            pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-        };
+        // html2canvas-pro (not classic html2canvas/html2pdf.js) is required here because
+        // Tailwind's CDN build outputs colors as oklch(), which classic html2canvas can't
+        // parse -- that mismatch is what was producing the blank PDF.
+        html2canvas(element, {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: '#faf9f6'
+        }).then(function (canvas) {
+            const imgData = canvas.toDataURL('image/jpeg', 0.98);
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'in', 'letter');
 
-        html2pdf().set(opt).from(element).save().then(() => {
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+            const margin = 0.4;
+            const usableWidth = pageWidth - margin * 2;
+            const usableHeight = pageHeight - margin * 2;
+
+            const imgWidth = usableWidth;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+            let heightLeft = imgHeight;
+            let position = margin;
+
+            pdf.addImage(imgData, 'JPEG', margin, position, imgWidth, imgHeight);
+            heightLeft -= usableHeight;
+
+            // Add extra pages if the results are taller than one page
+            while (heightLeft > 0) {
+                position = margin - (imgHeight - heightLeft);
+                pdf.addPage();
+                pdf.addImage(imgData, 'JPEG', margin, position, imgWidth, imgHeight);
+                heightLeft -= usableHeight;
+            }
+
+            pdf.save(`Mfedha-Financial-Gap-Analysis-Score-${scoreText}.pdf`);
             btn.disabled = false;
             btn.innerHTML = originalBtnHTML;
-        }).catch((err) => {
+        }).catch(function (err) {
             console.error('PDF generation failed:', err);
             btn.disabled = false;
             btn.innerHTML = originalBtnHTML;
